@@ -260,7 +260,6 @@ class Cron extends CI_Controller {
 			foreach($rst_lewat->result() as $lewat)
 			{
 				$this->maklumatLewat($lewat);
-				echo $lewat->USERID . " send\n";
 			}
 		}
 	}
@@ -325,6 +324,7 @@ class Cron extends CI_Controller {
 					$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message);				}
 			}
 			echo "Update table" . $objLewat->ID . "\n";
+			echo $objLewat->USERID . " send\n";
 			$this->mlaporan->do_update_lewat($objLewat->ID);
 		}
 	}
@@ -353,10 +353,10 @@ class Cron extends CI_Controller {
 
 	public function test_email()
 	{
-		//$this->load->library("notifikasi");
+		$this->load->library("notifikasi");
 		$subject = "Punctuality Cascading Reporting System";
 		$message = "Syed Munawir, 123456789012 lewat 00:02:44 saat pada 29/06/2014. Telah lewat 4 kali pada bulan Jun";
-		pcrs_send_email(array('mdridzuan@melaka.gov.my'), $subject, $message);
+		$this->notifikasi->sendEmail('mdridzuan@melaka.gov.my', $subject, $message);
 	}
 
 	public function re_gen()

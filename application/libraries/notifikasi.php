@@ -24,24 +24,59 @@ class Notifikasi
 	}
 
 
-	public function sendEmail($rcpt_to, $title, $message, $rcpt_cc = array(), $rcpt_bcc = array(), $attachment = NULL)
+	public function sendEmail($rcpt_to, $title, $message, $rcpt_cc = NULL, $rcpt_bcc = NULL, $attachment = NULL)
 	{
 		$this->CI->load->library('mailer');
-		$this->CI->mailer->clear(TRUE);
-		$this->CI->mailer->from($this->CI->config->item('pcrs_email_from'), $this->CI->config->item('pcrs_email_name'));
-		$this->CI->mailer->to($rcpt_to);
-		if(count($rcpt_cc) != 0)
-			$this->CI->mailer->cc($rcpt_cc);
-		if(count($rcpt_bcc) != 0)
-			$this->CI->mailer->bcc($rcpt_bcc);
 
-		$this->CI->mailer->subject($title);
-		$this->CI->mailer->message($message);
+		if(is_array($rcpt_to))
+		{
+			foreach($rcpt_to as $rcpt)
+			{
+				$this->CI->mailer->addAddress($rcpt);
+			}
+		}
+		else
+		{
+			$this->CI->mailer->addAddress($rcpt_to);
+		}
+
+		if(is_array($rcpt_cc))
+		{
+			foreach($rcpt_cc as $rcpt)
+			{
+				$this->CI->mailer->addCC($rcpt);
+			}
+		}
+		else
+		{
+			$this->CI->mailer->addCC($rcpt);
+		}
+
+		if(is_array($rcpt_bcc))
+		{
+			foreach($rcpt_bcc as $rcpt)
+			{
+				$this->CI->mailer->addBCC($rcpt);
+			}
+		}
+		else
+		{
+			$this->CI->mailer->addBCC($rcpt);
+		}
+
+		$this->CI->mailer->Subject = $title;
+		$this->CI->mailer->msgHTML($message);
+
 		if($attachment)
 		{
-			$this->CI->mailer->attach($attachment);
+			$this->CI->mailer->addAttachment($attachment);
 		}
-		$this->CI->mailer->send();
+
+		if(!$this->CI->mailer->send()) {
+			echo "Mailer Error: " . $this->CI->mailer->ErrorInfo;
+		} else {
+			echo "Message sent!";
+		}
 	}
 
     private function postToUrl($url, $data) {
