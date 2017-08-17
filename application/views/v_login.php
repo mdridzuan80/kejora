@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group <?php echo (form_error('comDomain'))?'has-error':'' ?>">
                                 	<select class="form-control" name="comDomain">
-                                        <option value="internal" <?php echo set_select('comDomain', 'internal', (set_value('comDomain')=='KEJORA.GOV.MY')?TRUE:FALSE); ?>>KEJORA.GOV.MY</option>
+                                        <option value="kejora.gov.my" <?php echo set_select('comDomain', 'internal', (set_value('comDomain')=='KEJORA.GOV.MY')?TRUE:FALSE); ?>>KEJORA.GOV.MY</option>
                                         <option value="internal" <?php echo set_select('comDomain', 'internal', (set_value('comDomain')=='internal')?TRUE:FALSE); ?>>internal</option>
                                     </select>
                                 </div>

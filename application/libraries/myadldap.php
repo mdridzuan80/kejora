@@ -32,20 +32,21 @@ class Myadldap
 			$this->_ad_cn = new adLDAP(array('account_suffix'=>$this->_ad_accountSuffix,
 										'base_dn'=>$this->_ad_baseDN,
 										'domain_controllers'=>$this->_ad_host,
-										'admin_username'=>$username,
-										'admin_password'=>$password));
+										'admin_username'=>$this->_ad_adminUsername,
+										'admin_password'=>$this->_ad_adminPassword));
 			//connect to ldap
 			$this->_ad_cn->connect();
-			$this->_ad_cn->close();
-			return true;
-			/* if($this->_ad_cn->authenticate($username,$password))
+			
+			if($this->_ad_cn->authenticate($username,$password))
 			{
 				return TRUE;
-			} */
+			} 
 				
 			//close connection to ldap
+			$this->_ad_cn->close();
 		}
 		catch (adLDAPException $e) {
+			dd($e);
 			return false;  
 		}	
 	}

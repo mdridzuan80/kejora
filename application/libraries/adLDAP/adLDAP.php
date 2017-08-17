@@ -84,7 +84,7 @@ class adLDAP {
     * 
     * @var string
     */   
-	protected $accountSuffix = "@mohr.gov.my";
+	protected $accountSuffix = "@mydomain.local";
     
     /**
     * The base dn for your domain
@@ -93,7 +93,7 @@ class adLDAP {
     * 
     * @var string
     */
-	protected $baseDn = "ou=people,o=mohr.gov.my"; 
+	protected $baseDn = "DC=mydomain,DC=local"; 
     
     /** 
     * Port used to talk to the domain controllers. 
@@ -640,8 +640,8 @@ class adLDAP {
                
         // Bind as a domain admin if they've set it up
         if ($this->adminUsername !== NULL && $this->adminPassword !== NULL) {
-            $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername, $this->adminPassword);
-			if (!$this->ldapBind) {
+            $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername . $this->accountSuffix, $this->adminPassword);
+            if (!$this->ldapBind) {
                 if ($this->useSSL && !$this->useTLS) {
                     // If you have problems troubleshooting, remove the @ character from the ldapldapBind command above to get the actual error message
                     throw new adLDAPException('Bind to Active Directory failed. Either the LDAPs connection failed or the login credentials are incorrect. AD said: ' . $this->getLastError());
@@ -693,7 +693,7 @@ class adLDAP {
         // Prevent null binding
         if ($username === NULL || $password === NULL) { return false; } 
         if (empty($username) || empty($password)) { return false; }
-		        
+        
         // Allow binding over SSO for Kerberos
         if ($this->useSSO && $_SERVER['REMOTE_USER'] && $_SERVER['REMOTE_USER'] == $username && $this->adminUsername === NULL && $_SERVER['KRB5CCNAME']) { 
             putenv("KRB5CCNAME=" . $_SERVER['KRB5CCNAME']);
@@ -708,14 +708,14 @@ class adLDAP {
         
         // Bind as the user        
         $ret = true;
-        $this->ldapBind = @ldap_bind($this->ldapConnection, "uid=".$username . ',ou=people,o=mohr.gov.my', $password);
+        $this->ldapBind = @ldap_bind($this->ldapConnection, $username . $this->accountSuffix, $password);
         if (!$this->ldapBind){ 
             $ret = false; 
         }
         
         // Cnce we've checked their details, kick back into admin mode if we have it
         if ($this->adminUsername !== NULL && !$preventRebind) {
-            $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername, $this->adminPassword);
+            $this->ldapBind = @ldap_bind($this->ldapConnection, $this->adminUsername . $this->accountSuffix , $this->adminPassword);
             if (!$this->ldapBind){
                 // This should never happen in theory
                 throw new adLDAPException('Rebind to Active Directory failed. AD said: ' . $this->getLastError());
