@@ -412,12 +412,12 @@ class MLaporan extends CI_Model {
 
 	public function get_staff_late($user_id, $bulan, $tahun)
 	{
-		$sql = "SELECT Count(view_LATE.USERID) AS LATE_COUNT, view_LATE.Name, view_LATE.SSN, view_LATE.TITLE, view_LATE.NUM_RUNID, view_LATE.street as mail, USERINFO.PAGER AS TEL_PEG_SATU, USERINFO.street AS MEL_PEG_SATU, USERINFO.CITY AS SS_SATU, USERINFO_1.PAGER AS TEL_PEG_DUA, USERINFO_1.street AS MEL_PEG_DUA, USERINFO_1.CITY AS SS_DUA, view_LATE.USERID
+		$sql = "SELECT Count(view_LATE.USERID) AS LATE_COUNT, view_LATE.Name, view_LATE.SSN, view_LATE.TITLE, view_LATE.NUM_RUNID, view_LATE.Email as mail, USERINFO.PAGER AS TEL_PEG_SATU, USERINFO.Email AS MEL_PEG_SATU, USERINFO.CITY AS SS_SATU, USERINFO_1.PAGER AS TEL_PEG_DUA, USERINFO_1.Email AS MEL_PEG_DUA, USERINFO_1.CITY AS SS_DUA, view_LATE.USERID
 			FROM (view_LATE INNER JOIN USERINFO ON view_LATE.OPHONE = USERINFO.SSN) LEFT JOIN USERINFO AS USERINFO_1 ON USERINFO.OPHONE = USERINFO_1.SSN
-			GROUP BY view_LATE.Name, view_LATE.SSN, view_LATE.TITLE, view_LATE.NUM_RUNID, view_LATE.street, USERINFO.PAGER, USERINFO.street, USERINFO.CITY, USERINFO_1.PAGER, USERINFO_1.street, USERINFO_1.CITY, view_LATE.MONTH, view_LATE.YEAR, view_LATE.USERID
-			HAVING (((view_LATE.MONTH)=$bulan) AND ((view_LATE.YEAR)=$tahun) AND ((view_LATE.USERID)=$user_id))
+			GROUP BY view_LATE.Name, view_LATE.SSN, view_LATE.TITLE, view_LATE.NUM_RUNID, view_LATE.Email, USERINFO.PAGER, USERINFO.Email, USERINFO.CITY, USERINFO_1.PAGER, USERINFO_1.Email, USERINFO_1.CITY, view_LATE.MONTH, view_LATE.YEAR, view_LATE.USERID
+			HAVING (((view_LATE.MONTH)= ?) AND ((view_LATE.YEAR)=?) AND ((view_LATE.USERID)=?))
 			ORDER BY view_LATE.Name";
-		return $this->db->query($sql);
+		return $this->db->query($sql, array($bulan,$tahun,$user_id));
 	}
 
 	public function get_staff_late_by_dept($dept_id, $bulan, $tahun)

@@ -295,32 +295,9 @@ if ( ! function_exists('pcrs_send_email') )
 {
 	function pcrs_send_email($rcpt_to, $title, $message, $rcpt_cc = array(), $rcpt_bcc = array(), $attachment = NULL)
 	{
-		$CI =& get_instance();
-		$CI->load->library('mailer');
-		$CI->config->load('email');
-		$mail = $CI->mailer;
-		//dd($CI->config->item('smtp_host'));
-		$mail->isSMTP();
-		//Enable SMTP debugging
-		// 0 = off (for production use)
-		// 1 = client messages
-		// 2 = client and server messages
-		$mail->SMTPDebug = 2;
-		//Ask for HTML-friendly debug output
-		$mail->Debugoutput = 'html';
-		//Set the hostname of the mail server
-		$mail->Host = $CI->config->item('smtp_host');
-		//Set the SMTP port number - likely to be 25, 465 or 587
-		$mail->Port = $CI->config->item('smtp_port');
-		//Whether to use SMTP authentication
-		$mail->SMTPAuth = true;
-		//Username to use for SMTP authentication
-		$mail->Username = $CI->config->item('smtp_user');
-		//Password to use for SMTP authentication
-		$mail->Password = $CI->config->item('smtp_pass');
-		//$CI->mailer->clear(TRUE);
-		$CI->mailer->setFrom($CI->config->item('pcrs_email_from'), $CI->config->item('pcrs_email_name'));
-		
+		$this->load->library("mailer");
+		$mail = $this->mailer;
+
 		if(is_array($rcpt_to))
 		{
 			foreach($rcpt_to as $rcpt)
@@ -329,13 +306,8 @@ if ( ! function_exists('pcrs_send_email') )
 			}
 		}
 		else{
-			$CI->mailer->addAddress($rcpt_to);			
+			$CI->mailer->addAddress($rcpt_to);
 		}
-
-		//if(count($rcpt_cc) != 0)
-			//$CI->mailer->cc($rcpt_cc);
-		//if(count($rcpt_bcc) != 0)
-			//$CI->mailer->bcc($rcpt_bcc);
 
 		$mail->Subject = $title;
 		$mail->msgHTML($message);
@@ -344,7 +316,7 @@ if ( ! function_exists('pcrs_send_email') )
 		{
 			$mail->addAttachment($attachment);
 		}
-		
+
 		if (!$mail->send()) {
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
