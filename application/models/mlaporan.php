@@ -1,5 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class MLaporan extends CI_Model {
+
+	const STATUS_SMS_UNSEND = 0;
+	const STATUS_SMS_SEND = 1;
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -428,17 +432,19 @@ class MLaporan extends CI_Model {
 
 	public function get_lewat($tkh)
 	{
-		$this->db->select('ID, USERID, convert(varchar, CHECKTIME, 120) as CHECKTIME, SEND_SMS, NUM_RUNID');
-		$this->db->where('convert(varchar(10), CHECKTIME, 120)=',$tkh);
-		$this->db->where('SEND_SMS',0);
-		$query = $this->db->get('dbo.USER_LATE_SMS');
+		$sql = "SELECT ID, USERID, convert(varchar, CHECKTIME, 120) as CHECKTIME, SEND_SMS, NUM_RUNID
+			FROM dbo.USER_LATE_SMS
+			WHERE 1=1
+			AND convert(varchar(10), CHECKTIME, 120) = ?
+			AND SEND_SMS = ?";
+		$query = $this->db->query($sql, array($tkh, self::STATUS_SMS_UNSEND));
 		return $query;
 	}
 
 	public function do_update_lewat($id)
 	{
-		$sql = "UPDATE dbo.USER_LATE_SMS SET SEND_SMS = 1 WHERE ID = ?";
-		return $this->db->query($sql,array($id));
+		$sql = "UPDATE dbo.USER_LATE_SMS SET SEND_SMS = ? WHERE ID = ?";
+		return $this->db->query($sql,array(self::STATUS_SMS_SEND, $id));
 	}
 
 	public function get_user_gen_tunjuk_sebab($bulan, $tahun)

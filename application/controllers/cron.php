@@ -248,14 +248,14 @@ class Cron extends CI_Controller {
 
 	Public function lapor_lewat_hadir()
 	{
-		echo "Hantar sms untuk lewat hadir trigger";
+		echo "Hantar sms untuk lewat hadir trigger \n";
 
 		$this->load->model('mlaporan');
 
 		$tkh_semasa = date('Y-m-d');
 		$rst_lewat = $this->mlaporan->get_lewat($tkh_semasa);
 
-		if($rst_lewat->num_rows != 0)
+		if($rst_lewat->num_rows)
 		{
 			foreach($rst_lewat->result() as $lewat)
 			{
@@ -284,7 +284,7 @@ class Cron extends CI_Controller {
 
 		$rst_staff = $this->mlaporan->get_staff_late($objLewat->USERID, date('m',strtotime($objLewat->CHECKTIME)), date('Y',strtotime($objLewat->CHECKTIME)));
 
-		if($rst_staff->num_rows != 0)
+		if($rst_staff->num_rows)
 		{
 			$this->load->library("notifikasi");
 
@@ -324,7 +324,7 @@ class Cron extends CI_Controller {
 					$this->notifikasi->sendSms($row_staff->TEL_PEG_DUA, $message);
 					$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message);				}
 			}
-
+			echo "Update table" . $objLewat->ID . "\n";
 			$this->mlaporan->do_update_lewat($objLewat->ID);
 		}
 	}
@@ -885,7 +885,7 @@ class Cron extends CI_Controller {
 	public function test_mailer()
 	{
 		$this->load->library("mailer");
-		
+
 		//Create a new PHPMailer instance
 		$mail = $this->mailer;
 
