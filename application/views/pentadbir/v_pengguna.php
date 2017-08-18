@@ -22,6 +22,7 @@
                         <tr>
                             <th>Id Pengguna</th>
                             <th>Domain</th>
+                            <th>Peranan</th>
                             <th>Operasi</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                         <tr>
                             <td><?php echo $row->username?></td>
                             <td><?php echo $row->domain?></td>
+                            <td><?php echo $row->role_name?></td>
                             <td>
                             	<button  class="btn btn-success btn-xs btn-pengguna-hapus" onclick="return hapus_pengguna(<?php echo $row->id?>)"><i class="glyphicon glyphicon-remove-sign"></i> Hapus</button>
                             </td>

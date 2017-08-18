@@ -25,8 +25,10 @@ class MUsers extends CI_Model {
 	
 	public function getUsers()
 	{
-		$query = $this->db->get('att_users');
-		return $query;
+		$sql = "SELECT * FROM dbo.att_users a, dbo.att_role b
+			WHERE 1=1
+			AND a.roleid = b.role_id";
+		return $this->db->query($sql);
 	}
 	
 	public function checkUserAD($username,$domain,$status)
