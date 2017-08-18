@@ -58,8 +58,8 @@ $().ready(function() {
 						$('#msgAddUserInternalAlert').delay(2000).hide('slow');
 						$(location).delay(5000).attr('href',base_url+'pentadbir/pengguna');
 					},
-			error: function(){//$('#spp-interim-frm').html('<div align="center">Error To Create Project. Something Happen!<br/>Please Consult With Your System Admin</div>');
-				$('#msgAddUserInternalDanger').show();
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(textStatus + ": " + errorThrown);
 			}
 		});
 	});
@@ -76,8 +76,8 @@ $().ready(function() {
 					$('#msgAddUserInternalAlert').delay(2000).hide('slow');
 					$(location).delay(5000).attr('href',base_url+'pentadbir/pengguna');
 				},
-			error: function(){//$('#spp-interim-frm').html('<div align="center">Error To Create Project. Something Happen!<br/>Please Consult With Your System Admin</div>');
-			$('#msgAddUserInternalDanger').show();
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(textStatus + ": " + errorThrown);
 			}
 		});
 	});

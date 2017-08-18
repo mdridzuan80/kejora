@@ -4,6 +4,20 @@ class MUsers extends CI_Model {
 		parent::__construct();
 	}
 	
+	public function checkExistUsername($username)
+	{
+		$sql = "SELECT * FROM dbo.att_users
+			WHERE username = ?";
+		return $this->db->query($sql, array($username));
+	}
+
+	public function checkExistUserId($userId)
+	{
+		$sql = "SELECT * FROM dbo.att_users
+			WHERE userid = ?";
+		return $this->db->query($sql, array($userId));
+	}
+
 	public function checkUser($username,$password,$domain,$status) {
 		$query = $this->db->get_where('att_users', array('username'=>$username,'password'=>$password,'domain'=>$domain,'status'=>$status));
 		return $query->num_rows();
