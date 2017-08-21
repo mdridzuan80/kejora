@@ -79,8 +79,8 @@ class Mohon extends MY_Controller {
 						$data['hari'] = $this->config->item('pcrs_hari');
 						$title = '[PCRS-ujian] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
 						$message = $this->load->view('permohonan/v_emel_notify', $data, TRUE);
-						// prod $this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message); // emel dia...
-						$this->notifikasi->sendEmail("mdridzuan@melaka.gov.my", $title, $message); // emel dia...
+						
+						$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message); // emel dia...
 					}
 					echo "Permohonan anda telah di hantar";
 				}
