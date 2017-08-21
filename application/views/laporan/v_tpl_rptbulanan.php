@@ -37,7 +37,7 @@
 					 <td style="text-align: right;    width: 50%">&nbsp;</td>
 			 </tr>
        <tr>
-           <td style="text-align: left;    width: 50%">eMOHR Attendance System Administration (eMASA)</td>
+           <td style="text-align: left;    width: 50%">Punctuality Reporting Cascading System (PCRS)</td>
            <td style="text-align: right;    width: 50%">page [[page_cu]]/[[page_nb]]</td>
        </tr>
 	   </table>
@@ -67,7 +67,7 @@
 	?>
 	<table width="564">
     	<tr>
-    	  <td width="80" rowspan="6"><div align="center"><span style="width:100%; text-align:center;"><img src="assets/images/ksm.png" width="80" height="80" align="top" /></span></div></td>
+    	  <td width="80" rowspan="6"><div align="center"><span style="width:100%; text-align:center;"><img src="assets/images/kejora.png" width="80" height="80" align="top" /></span></div></td>
     	  <td width="5" rowspan="6">&nbsp;</td>
     	  <td>LAPORAN</td>
     	  <td><strong>:</strong></td>
