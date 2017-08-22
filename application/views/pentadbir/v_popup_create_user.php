@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-lg-6">
                             	<div class="form-group">
-                                    <label class="control-label" style="text-align:left;">@melaka.gov</label>
+                                    <label class="control-label" style="text-align:left;">@kejora.gov.my</label>
                                     <div class="row">
                                         <div class="col-sm-11">
                                             <input id="txtCariUserDomain" type="text" class="form-control input-sm" placeholder="Text input" />
