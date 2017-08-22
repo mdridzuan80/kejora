@@ -284,7 +284,7 @@
                         <i class="fa fa-user fa-fw"></i>&nbsp;<?php echo $this->session->userdata('userid') ?>&nbsp;<i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <?php if($this->session->userdata('role')==1){?>
+                        <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5){?>
 						<li><a href="<?php echo base_url()?>pentadbir/pengguna"><i class="fa fa-user fa-fw"></i> Pengurusan Pengguna</a></li>
 						<li><a href="<?php echo base_url()?>import/csv"><i class="fa fa-user fa-fw"></i> Import</a></li>
                         <li class="divider"></li>
