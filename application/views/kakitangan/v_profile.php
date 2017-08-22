@@ -21,7 +21,7 @@
         	<?php $readonly = ($this->session->userdata('role')==1)? "" : "disabled"?>
             <label>Bahagian/Unit <?php echo ($this->session->userdata('role')==1)? "(*)" : "" ?> </label>
             <input type="text" class="form-control" name="txtNamaBahagian" type="email" value="<?php echo $row->DEPTNAME?>" disabled>
-            <?php if($this->session->userdata('role')==1){echo form_dropdown('comBahagian', array() ,0, "id=\"cmdRptBahagian\" class=\"form-control input-sm easyui-combotree\" data-options=\"url:'" . base_url() . "welcome/department'\" style=\"width:570px;\"");}?>
+            <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5){echo form_dropdown('comBahagian', array() ,0, "id=\"cmdRptBahagian\" class=\"form-control input-sm easyui-combotree\" data-options=\"url:'" . base_url() . "welcome/department'\" style=\"width:570px;\"");}?>
         </div>
         <div class="form-group">
             <label>Alamat Emel (*)</label>
