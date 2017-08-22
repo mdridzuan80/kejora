@@ -48,7 +48,16 @@
                         <div class="form-group">
                             <label class="col-sm-1 control-label">Peranan</label>
                             <div class="col-sm-5">
+                                <?php if($this->session->userdata('role')==1) {?>
                               <?php echo form_dropdown('comPeranan', $role ,0, "id=\"comPeranan\" class=\"form-control input-sm\"");?>
+                                <?php }else{?>
+                                    <select name="comPeranan" id="comPeranan" class="form-control input-sm">
+                                        <option value="-1">[sila pilih]</option>
+                                        <option value="2">Ketua Bahagian</option>
+                                        <option value="3">PA</option>
+                                        <option value="4">Pengguna</option>
+                                    </select>
+                                    <?php }?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,7 +92,16 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Peranan</label>
                                     <div class="col-sm-10">
-                                      <?php echo form_dropdown('comPeranan', $role ,0, "id=\"comPeranan\" class=\"form-control input-sm\"");?>
+                                    <?php if($this->session->userdata('role')==1) {?>
+                                            <?php echo form_dropdown('comPeranan', $role ,0, "id=\"comPeranan\" class=\"form-control input-sm\"");?>
+                                        <?php }else{?>
+                                              <select name="comPeranan" id="comPeranan" class="form-control input-sm">
+                                                  <option value="-1">[sila pilih]</option>
+                                                  <option value="2">Ketua Bahagian</option>
+                                                  <option value="3">PA</option>
+                                                  <option value="4">Pengguna</option>
+                                              </select>
+                                        <?php }?>
                                     </div>
                                 </div>
                                 <div class="form-group">
