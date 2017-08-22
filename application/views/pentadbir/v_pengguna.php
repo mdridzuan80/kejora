@@ -21,6 +21,7 @@
                     <thead>
                         <tr>
                             <th>Id Pengguna</th>
+                            <th>Nama</th>
                             <th>Domain</th>
                             <th>Peranan</th>
                             <th>Operasi</th>
@@ -30,6 +31,7 @@
                         <?php foreach($pengguna->result() as $row){?>
                         <tr>
                             <td><?php echo $row->username?></td>
+                            <td><?php echo $row->nama?></td>
                             <td><?php echo $row->domain?></td>
                             <td><?php echo $row->role_name?></td>
                             <td>

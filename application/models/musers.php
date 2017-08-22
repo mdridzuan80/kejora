@@ -25,9 +25,10 @@ class MUsers extends CI_Model {
 	
 	public function getUsers()
 	{
-		$sql = "SELECT * FROM dbo.att_users a, dbo.att_role b
+		$sql = "SELECT *, c.NAME as nama FROM dbo.att_users a, dbo.att_role b, dbo.USERINFO c
 			WHERE 1=1
-			AND a.roleid = b.role_id";
+			AND a.roleid = b.role_id
+			AND a.userid = c.USERID";
 		return $this->db->query($sql);
 	}
 	
