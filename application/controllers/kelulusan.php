@@ -36,7 +36,7 @@ class Kelulusan extends MY_Controller {
 			$data['hari'] = $this->config->item('pcrs_hari');
 			//send mail kepada pemohon
 			$this->load->model('muserinfo');
-			$title = '[PCRS] Status Permohonan Timeslip oleh ' . $row->Name . ' pada ' . date('d-m-Y',strtotime($row->ts_chkin));
+			$title = '[PCRS] Status Permohonan Keluar oleh ' . $row->Name . ' pada ' . date('d-m-Y',strtotime($row->ts_chkin));
 			$message = $this->load->view('kelulusan/v_emel_notify', $data, TRUE);
 			$email_pemohon = $this->muserinfo->get_mail_add($this->timeslip->get_user_id($mohon_id));
 			if(ENVIRONMENT != 'development')

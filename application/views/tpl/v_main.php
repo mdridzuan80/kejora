@@ -367,6 +367,9 @@
                                 <li>
                                     <a href="<?php echo base_url() ?>kelulusan/justifikasi">Justifikasi Kehadiran</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Permohonan Keluar</a>
+                                </li>
                             </ul>
                         </li>
                         <?php }?>
