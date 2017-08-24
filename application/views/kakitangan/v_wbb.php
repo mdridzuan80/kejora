@@ -170,6 +170,7 @@
 					harian();
 					bulanan();
 					alert(d);
+                    location.reload(true);
 				},
 				error: function(jqXHR, textStatus, errorThrown ){
 					harian();
@@ -189,6 +190,7 @@
 					bulanan();
 					harian();
 					alert('Update successfully');
+                    location.reload(true);
 				},
 				beforeSend: function(){
 					$("#att-rekod-wbb-bulanan").empty().html(loader);

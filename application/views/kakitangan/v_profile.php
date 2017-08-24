@@ -59,7 +59,7 @@ $().ready(function() {
 					$('#ralat').html("<div class=\"alert alert-danger alert-dismissable\"><button class=\"close\" type=\"button\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button><b>RALAT!</b> Sila penuhkan semua kawasan bertanda (*)</div>");
 				}else{
 					alert("Maklumat telah berjaya disimpan\n");
-					$.magnificPopup.close();
+                    window.location.reload(true);
 				}
 			}
 		});
