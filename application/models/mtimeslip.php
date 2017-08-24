@@ -38,7 +38,7 @@ class MTimeslip extends CI_Model {
 		$this->db->from('USERINFO a');
 		$this->db->join('PCRS.att_timeslip b', 'a.USERID=b.ts_userid');
 		$this->db->where('b.ts_status','M');
-		if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5)
+		if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5 or $this->session->userdata('role')==4)
 			$this->db->where('a.DEFAULTDEPTID',$this->session->userdata('dept'));
 		if($this->session->userdata('pelulus') == true)
 			$this->db->where_in('a.DEFAULTDEPTID',$dept_id);
@@ -46,6 +46,7 @@ class MTimeslip extends CI_Model {
 		$this->db->order_by('6','desc');
 		
 		$query = $this->db->get();
+//dd($this->db->last_query());
 		return $query;	
 	}
 
