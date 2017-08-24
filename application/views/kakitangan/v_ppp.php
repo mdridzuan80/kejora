@@ -82,7 +82,7 @@
             data: $("#frmPPP").serialize(),
             success: function(d) {
                 alert("Maklumat telah berjaya disimpan\n");
-                $.magnificPopup.close();
+                location.reload(true);
             }
         });
     });
