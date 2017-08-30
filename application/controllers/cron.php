@@ -254,8 +254,8 @@ class Cron extends CI_Controller {
 
 		$tkh_semasa = date('Y-m-d');
 		$rst_lewat = $this->mlaporan->get_lewat($tkh_semasa);
-
-		if($rst_lewat->num_rows)
+		
+		if($rst_lewat->num_rows())
 		{
 			foreach($rst_lewat->result() as $lewat)
 			{
@@ -292,20 +292,20 @@ class Cron extends CI_Controller {
 			$bil_lewat = $row_staff->LATE_COUNT;
 			$bulan = $this->config->item('pcrs_bulan');
 			$message = $row_staff->Name . ", " . $row_staff->SSN . " lewat " . $lewat . " saat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME)) . ". Telah lewat " . $bil_lewat . " kali pada bulan " . $bulan[date('m',strtotime($objLewat->CHECKTIME))];
-			$subject = "[PCRS] " . $row_staff->Name . " Telah Hadir Lewat ke Pejabat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME));
+			$subject = "[PCRS - UJIAN] " . $row_staff->Name . " Telah Hadir Lewat ke Pejabat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME));
 
 			if($row_staff->SS_SATU == 'SS')
-			{
+			{				
 				if($this->mpelulus->chk_kj($row_staff->USERID))
 				{
 					$this->notifikasi->sendSms($row_staff->TEL_PEG_SATU, $message);
-					$this->notifikasi->sendEmail($row_staff->MEL_PEG_SATU, $subject, $message);
+					$this->notifikasi->sendEmail($row_staff->MEL_PEG_SATU, $subject, $message,'mdridzuan@melaka.gov.my');
 				}
 			}
 			else
 			{
 				$this->notifikasi->sendSms($row_staff->TEL_PEG_SATU, $message);
-				$this->notifikasi->sendEmail($row_staff->MEL_PEG_SATU, $subject, $message);
+				$this->notifikasi->sendEmail($row_staff->MEL_PEG_SATU, $subject, $message,'mdridzuan@melaka.gov.my');
 			}
 
 			if($bil_lewat >= 3)
@@ -315,17 +315,17 @@ class Cron extends CI_Controller {
 					if($this->mpelulus->chk_kj($row_staff->USERID))
 					{
 						$this->notifikasi->sendSms($row_staff->TEL_PEG_DUA, $message);
-						$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message);
+						$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message,'mdridzuan@melaka.gov.my');
 					}
 				}
 				else
 				{
 					$this->notifikasi->sendSms($row_staff->TEL_PEG_DUA, $message);
-					$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message);				}
+					$this->notifikasi->sendEmail($row_staff->MEL_PEG_DUA, $subject, $message,'mdridzuan@melaka.gov.my');				}
 			}
 			echo "Update table" . $objLewat->ID . "\n";
 			echo $objLewat->USERID . " send\n";
-			$this->mlaporan->do_update_lewat($objLewat->ID);
+			//$this->mlaporan->do_update_lewat($objLewat->ID);
 		}
 	}
 
@@ -356,7 +356,7 @@ class Cron extends CI_Controller {
 		$this->load->library("notifikasi");
 		$subject = "Punctuality Cascading Reporting System";
 		$message = "Syed Munawir, 123456789012 lewat 00:02:44 saat pada 29/06/2014. Telah lewat 4 kali pada bulan Jun";
-		$this->notifikasi->sendEmail('mdridzuan@melaka.gov.my', $subject, $message);
+		$this->notifikasi->sendEmail('mdridzuan@melaka.gov.my', $subject, $message, 'demo@melaka.gov.my');
 	}
 
 	public function re_gen()

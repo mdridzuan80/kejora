@@ -49,7 +49,7 @@ class Notifikasi
 		}
 		else
 		{
-			$this->CI->mailer->addCC($rcpt);
+			$this->CI->mailer->addCC($rcpt_cc);
 		}
 
 		if(is_array($rcpt_bcc))
@@ -59,9 +59,9 @@ class Notifikasi
 				$this->CI->mailer->addBCC($rcpt);
 			}
 		}
-		else
+		else									
 		{
-			$this->CI->mailer->addBCC($rcpt);
+			$this->CI->mailer->addBCC($rcpt_bcc);
 		}
 
 		$this->CI->mailer->Subject = $title;
