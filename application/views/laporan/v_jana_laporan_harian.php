@@ -16,7 +16,7 @@
 		foreach($staff as $val)
 		{
 	?>
-    <tr <?php if(date("N", strtotime($val['tarikh']))==6 || date("N", strtotime($val['tarikh']))==7) echo "class=\"success\"" ?>>
+    <tr <?php if(date("N", strtotime($val['tarikh']))==5 || date("N", strtotime($val['tarikh']))==6) echo "class=\"success\"" ?>>
         <td><?php echo $i++?></td>
         <td><?php echo $val['name']?></td>
         <td><?php echo $val['wbb']?></td>
@@ -27,9 +27,9 @@
         <?php
 			if(!isset($cuti[date('Y-m-d', strtotime($val['tarikh']))]))
 			{
-				if(date("N", strtotime($val['tarikh']))!=6)
+				if(date("N", strtotime($val['tarikh']))!=5)
 				{
-					if (date("N", strtotime($val['tarikh']))!=7)
+					if (date("N", strtotime($val['tarikh']))!=6)
 					{
 						if($cuti_ahad)
 						{
@@ -42,14 +42,14 @@
 							{
 								foreach($val['nota']->result() as $row)
 								{
-                    if($row->justifikasi_alasan)
-      							{
-      								echo "<p>" . $row->justifikasi_alasan . "</p>";
-      							}
-      							if($row->justifikasi_alasan_2)
-      							{
-      								echo "<p>" . $row->justifikasi_alasan_2 . "</p>";
-      							}
+									if($row->justifikasi_alasan)
+									{
+										echo "<p>" . $row->justifikasi_alasan . "</p>";
+									}
+									if($row->justifikasi_alasan_2)
+									{
+										echo "<p>" . $row->justifikasi_alasan_2 . "</p>";
+									}
 								}
 							}
 							else
