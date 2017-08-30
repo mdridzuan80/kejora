@@ -38,7 +38,7 @@
                     {
                 ?>
                     <tr>
-                        <td><?php echo $row->OPHONE?></td>
+                        <td><?php echo $row->SSN?></td>
                         <td><?php echo $row->NAME?></td>
                     </tr>
                 <?php
