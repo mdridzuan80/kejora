@@ -53,7 +53,7 @@ class Laporan extends MY_Controller
   		{
   			$data['cuti'] = $this->cuti->check_cuti_by_range_day($mula, $akhir);
   			$data["laporan"] = $this->laporan->rpt_kehadiran_harian($deptid, $staffid, $mula, $akhir);
-        $data["bahagian"] = $this->department->get_department_name($dept_id);
+            $data["bahagian"] = $this->department->get_department_name($dept_id);
   			$html = $this->load->view('laporan/v_jana_laporan_harian_cetak', $data, true);
   			$pdf_param = array('orientation' => 'P');
           	pcrs_render_pdf_download($pdf_param, $html);

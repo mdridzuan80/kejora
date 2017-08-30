@@ -150,7 +150,7 @@
 					foreach($anggota as $val)
 					{
 		?>
-        <tr <?php if(date("N", strtotime($val['tarikh']))==6 || date("N", strtotime($val['tarikh']))==7) echo "style=\"background-color:#EEE;\"" ?>>
+        <tr <?php if(date("N", strtotime($val['tarikh']))==5 || date("N", strtotime($val['tarikh']))==6) echo "style=\"background-color:#EEE;\"" ?>>
         	<td style="width:10%"><?php echo date("d/m/Y", strtotime($val['tarikh']))?></td>
             <td style="width:10%"><?php echo date("l", strtotime($val['tarikh']))?></td>
             <td style="width:5%"><?php if($val['wbb']) echo pcrs_wbb_desc($val['wbb'])?></td>
@@ -163,9 +163,9 @@
 				{
 					if($val['chkin'])
 					{
-						if(date("N", strtotime($val['tarikh']))!=6)
+						if(date("N", strtotime($val['tarikh']))!=5)
 						{
-							if (date("N", strtotime($val['tarikh']))!=7)
+							if (date("N", strtotime($val['tarikh']))!=6)
 							{
 								$dateString = date("Y-m-d", strtotime($val['tarikh'])) . " " . $start[0];
 								if(strtotime($val['chkin']) > strtotime($dateString))
@@ -183,9 +183,9 @@
             	<?php
 					if(!isset($cuti[date('Y-m-d', strtotime($val['tarikh']))]))
 					{
-						if(date("N", strtotime($val['tarikh']))!=6)
+						if(date("N", strtotime($val['tarikh']))!=5)
 						{
-							if (date("N", strtotime($val['tarikh']))!=7)
+							if (date("N", strtotime($val['tarikh']))!=6)
 							{
 								if(!$cuti_ahad)
 								{
@@ -202,7 +202,7 @@
 										if(!$val['chkout'])
 										{
 											echo "Tidak punch petang<br/>";
-										}
+										}										
 										else
 										{
 											$c_in=0;

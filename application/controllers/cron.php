@@ -325,7 +325,7 @@ class Cron extends CI_Controller {
 			}
 			echo "Update table" . $objLewat->ID . "\n";
 			echo $objLewat->USERID . " send\n";
-			//$this->mlaporan->do_update_lewat($objLewat->ID);
+			$this->mlaporan->do_update_lewat($objLewat->ID);
 		}
 	}
 
