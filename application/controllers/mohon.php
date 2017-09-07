@@ -56,10 +56,7 @@ class Mohon extends MY_Controller {
 			$this->load->model('mtimeslip','timeslip');
 			$this->load->model('mpelulus','pelulus');
 			$this->load->model('muserinfo','userinfo');
-			$permohonan_id = $this->timeslip->do_mohon($fields);
 
-			if($permohonan_id)
-			{
 				$rst_pelulus = $this->userinfo->getPPP($this->input->post('comRptKakitangan'));
 
 				if($rst_pelulus->num_rows)
@@ -67,32 +64,34 @@ class Mohon extends MY_Controller {
 					$data['rst_info_pemohon'] = $this->userinfo->getUserInfo($this->input->post('comRptKakitangan'));
 					if($data['rst_info_pemohon']->num_rows())
 					{
-						$this->load->library("notifikasi");
 						$info_pemohon = $data['rst_info_pemohon']->row();
 						$pemohon = $info_pemohon->NAME;
-						$data['permohonan_id'] = $permohonan_id;
 						$data['name'] = $pemohon;
 						$data['jenis'] = $fields['ts_jenis'];
 						$data['check_in'] = $fields['ts_chkin'];
 						$data['check_out'] = $fields['ts_chkout'];
 						$data['alasan'] = $fields['ts_alasan'];
 						$data['hari'] = $this->config->item('pcrs_hari');
-						$title = '[PCRS-ujian] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
+						$title = '[PCRS] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
 						$message = $this->load->view('permohonan/v_emel_notify', $data, TRUE);
 						
-						$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message); // emel dia...
+						if($this->timeslip->do_mohon($fields))
+						{	
+							$this->load->library("notifikasi");
+							$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message); // emel dia...
+							echo "Permohonan anda telah di hantar";
+						}
+						else
+						{
+							echo "Ralat! Permohonan tidak berjaya disimpan.";
+						}
 					}
-					echo "Permohonan anda telah di hantar";
 				}
 				else
 				{
 					echo "Ralat! Sila pastikan bahagian pemohon memiliki pelulus.";
 				}
-			}
-			else
-			{
-				echo "Ralat! Data tidak berjaya disimpan.";
-			}
+			
 		}
 		else
 		{
@@ -439,13 +438,15 @@ class Mohon extends MY_Controller {
 
 		if( ENVIRONMENT == 'production' )
 		{
-			pcrs_send_email($emel_to, $title, $message, $info_pemohon->Email);
+			$this->load->library("notifikasi");
+			$this->notifikasi->sendEmail($emel_to, $title, $message); // emel dia...
 		}
 		else
 		{
 			$title .= ' (Devel)';
 			$emel_bcc[] = 'mdridzuan@melaka.gov.my';
-			pcrs_send_email($emel_bcc, $title, $message);
+			$this->load->library("notifikasi");
+			$this->notifikasi->sendEmail($emel_bcc, $title, $message); // emel dia...
 		}
 	}
 }

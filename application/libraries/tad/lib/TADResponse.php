@@ -80,7 +80,7 @@ class TADResponse
      * @param array $options format to apply on the response.
      * @return mixed Response formatted.
      */
-    public function get_response(array $options = [])
+    public function get_response(array $options = array())
     {
         if (!isset($options['format'])) {
             $options['format'] = 'xml';
@@ -197,7 +197,7 @@ class TADResponse
      */
     public function to_array()
     {
-        return $this->is_empty_response() ? [] : json_decode($this->to_json((string) $this), true);
+        return $this->is_empty_response() ? array() : json_decode($this->to_json((string) $this), true);
     }
 
     /**
@@ -286,11 +286,11 @@ class TADResponse
      * @param string $xml_init_row_tag XML root tag.
      * @return string XML string filtered.
      */
-    public function filter_xml($xml, $filter, array $range=[], $xml_init_row_tag='<Row>')
+    public function filter_xml($xml, $filter, array $range=array(), $xml_init_row_tag='<Row>')
     {
         $xml_header = $this->extract_xml_header($xml);
 
-        $matches = [];
+        $matches = array();
         $filtered_xml = self::XML_NO_DATA_FOUND;
 
         $rows = explode($xml_init_row_tag, $xml);
@@ -400,7 +400,7 @@ class TADResponse
      * @param string $xml string to be cleaned out.
      * @return string XML string cleaned out.
      */
-    private function sanitize_xml_string($xml, array $undesired_chars = [ "\n", "\r", "\t" ])
+    private function sanitize_xml_string($xml, array $undesired_chars = array( "\n", "\r", "\t" ))
     {
         return trim(str_replace($undesired_chars, '', $xml));
     }
@@ -413,8 +413,8 @@ class TADResponse
      */
     private function normalize_filter_args($args)
     {
-        $normalized_filter_args = [];
-        $valid_range_filter = ['start', 'end', 'like'];
+        $normalized_filter_args = array();
+        $valid_range_filter = array('start', 'end', 'like');
 
         if (is_array($args)) {
             $args_keys = array_keys($args);

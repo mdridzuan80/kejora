@@ -40,7 +40,7 @@ class TADFactory
      *
      * @param array $options attributes values.
      */
-    public function __construct(array $options = [])
+    public function __construct(array $options = array())
     {
         $this->options  = $options;
     }
@@ -55,13 +55,13 @@ class TADFactory
         $options = $this->options;
         $this->set_options($this->get_default_options(), $options);
 
-        $soap_options = [
+        $soap_options = array(
             'location' => "http://{$options['ip']}/iWsService",
             'uri' => 'http://www.zksoftware/Service/message/',
             'connection_timeout' => $options['connection_timeout'],
             'exceptions' => false,
             'trace' => true
-        ];
+        );
 
         $soap_client = new \SoapClient(null, $soap_options);
 

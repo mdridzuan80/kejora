@@ -292,7 +292,7 @@ class Cron extends CI_Controller {
 			$bil_lewat = $row_staff->LATE_COUNT;
 			$bulan = $this->config->item('pcrs_bulan');
 			$message = $row_staff->Name . ", " . $row_staff->SSN . " lewat " . $lewat . " saat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME)) . ". Telah lewat " . $bil_lewat . " kali pada bulan " . $bulan[date('m',strtotime($objLewat->CHECKTIME))];
-			$subject = "[PCRS - UJIAN] " . $row_staff->Name . " Telah Hadir Lewat ke Pejabat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME));
+			$subject = "[PCRS] " . $row_staff->Name . " Telah Hadir Lewat ke Pejabat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME));
 
 			if($row_staff->SS_SATU == 'SS')
 			{				
@@ -755,6 +755,7 @@ class Cron extends CI_Controller {
 
 	public function get_data_from_device()
 	{
+		error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 		echo "---------------------------------------\n";
 		echo "Fetch Data From Reader: " . date('Y-m-d h:i:s') . "\n";
 		echo "---------------------------------------\n";

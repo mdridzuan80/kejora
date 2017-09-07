@@ -28,20 +28,24 @@ class Mytad
 			$tad = $tad_factory->get_instance();
 
 			if($pin)
-				$att_logs = $tad->get_att_log(['pin'=>$pin]);
+			{
+				$att_logs = $tad->get_att_log(array('pin'=>$pin));
+			}
 			else
+			{
 				$att_logs = $tad->get_att_log();
+			}
 
 			if( !$att_logs->is_empty_response() )
 		  {
 				if($start && $end)
 				{
-					$att_logs->filter_by_date(['start' => $start, 'end' => $end]);
+					$att_logs->filter_by_date(array('start' => $start, 'end' => $end));
 				}
 				else
 				{
 					if($start)
-						$att_logs->filter_by_date(['start' => $start,'end' => $start]);
+						$att_logs->filter_by_date(array('start' => $start,'end' => $start));
 				}
 
 				$array_att_logs = $att_logs->to_array();

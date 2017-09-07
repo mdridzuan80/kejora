@@ -106,134 +106,134 @@ class TADZKLib
     /**
      * @var array commands set supported by <code>TADZKLib</code> class.
      */
-    static private $zklib_commands = [
-        'get_platform' => [
+    static private $zklib_commands = array(
+        'get_platform' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~Platform',
             'should_disconnect' => true,
             'result_filter_string'=>'~Platform='
-        ],
-        'get_fingerprint_algorithm' => [
+        ),
+        'get_fingerprint_algorithm' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~ZKFPVersion',
             'should_disconnect' => true,
             'result_filter_string'=>'~ZKFPVersion='
-        ],
-        'get_serial_number' => [
+        ),
+        'get_serial_number' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~SerialNumber',
             'should_disconnect' => true,
             'result_filter_string'=>'~SerialNumber='
-        ],
-        'get_oem_vendor' => [
+        ),
+        'get_oem_vendor' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~OEMVendor',
             'should_disconnect' => true,
             'result_filter_string'=>'~OEMVendor='
-        ],
-        'get_mac_address' => [
+        ),
+        'get_mac_address' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => 'MAC',
             'should_disconnect' => true,
             'result_filter_string'=>'MAC='
-        ],
-        'get_device_name' => [
+        ),
+        'get_device_name' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~DeviceName',
             'should_disconnect' => true,
             'result_filter_string'=>'~DeviceName='
-        ],
-        'get_manufacture_time' => [
+        ),
+        'get_manufacture_time' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~ProductTime',
             'should_disconnect' => true,
             'result_filter_string'=>'~ProductTime='
-        ],
-        'get_antipassback_mode' => [
+        ),
+        'get_antipassback_mode' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~APBFO',
             'should_disconnect' => true,
             'result_filter_string'=>'~APBFO='
-        ],
-        'get_workcode' => [
+        ),
+        'get_workcode' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~WCFO',
             'should_disconnect' => true,
             'result_filter_string'=>'~WCFO='
-        ],
-        'get_ext_format_mode' => [
+        ),
+        'get_ext_format_mode' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~ExtendFmt',
             'should_disconnect' => true,
             'result_filter_string'=>'~ExtendFmt='
-        ],
-        'get_encrypted_mode' => [
+        ),
+        'get_encrypted_mode' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => 'encrypt_out',
             'should_disconnect' => true,
             'result_filter_string'=>'encrypt_out='
-        ],
-        'get_pin2_width' => [
+        ),
+        'get_pin2_width' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~PIN2Width',
             'should_disconnect' => true,
             'result_filter_string'=>'~PIN2Width='
-        ],
-        'get_ssr_mode' => [
+        ),
+        'get_ssr_mode' => array(
             'command_id' => self::CMD_DEVICE,
             'command_string' => '~SSR',
             'should_disconnect' => true,
             'result_filter_string'=>'~SSR='
-        ],
-        'get_firmware_version' => [
+        ),
+        'get_firmware_version' => array(
             'command_id' => self::CMD_VERSION,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'get_free_sizes' => [
+        ),
+        'get_free_sizes' => array(
             'command_id' => self::CMD_GET_FREE_SIZES,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'set_date' => [
+        ),
+        'set_date' => array(
             'command_id' => self::CMD_SET_TIME,
             'command_string' => self::CUSTOMIZED_COMMAND_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'delete_admin' => [
+        ),
+        'delete_admin' => array(
             'command_id' => self::CMD_CLEAR_ADMIN,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'enable' => [
+        ),
+        'enable' => array(
             'command_id' => self::CMD_ENABLEDEVICE,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'disable' => [
+        ),
+        'disable' => array(
             'command_id' => self::CMD_DISABLEDEVICE,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => false,
             'result_filter_string'=>false
-        ],
-        'restart' => [
+        ),
+        'restart' => array(
             'command_id' => self::CMD_RESTART,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ],
-        'poweroff' => [
+        ),
+        'poweroff' => array(
             'command_id' => self::CMD_POWEROFF,
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string'=>false
-        ]
-    ];
+        )
+    );
 
     /**
      * Returns commands available by the class.
@@ -257,7 +257,7 @@ class TADZKLib
 
         $this->zkclient = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
-        $timeout = ['sec' => $options['connection_timeout'], 'usec' => 500000];
+        $timeout = array('sec' => $options['connection_timeout'], 'usec' => 500000);
         socket_set_option($this->zkclient, SOL_SOCKET, SO_RCVTIMEO, $timeout);
     }
 
@@ -271,7 +271,7 @@ class TADZKLib
     public function __call($command, array $args)
     {
         $should_disconnect = true;
-        $args = count($args) === 0 ? [] : array_shift($args);
+        $args = count($args) === 0 ? array() : array_shift($args);
         $encoding = $args['encoding'];
         unset($args['encoding']);
 
@@ -371,7 +371,7 @@ class TADZKLib
      * @param array $dt date and time data.
      * @return boolean <b><code>true</code></b> on successfully, otherwise returns <b><code>false</code></b>.
      */
-    private function zk_set_date(array $dt = [])
+    private function zk_set_date(array $dt = array())
     {
         $normalized_datetime = $this->setup_datetime($dt);
         $encoded_time = $this->encode_time($normalized_datetime);
@@ -385,7 +385,7 @@ class TADZKLib
      */
     private function zk_get_free_sizes()
     {
-        $fs = [];
+        $fs = array();
         $free_sizes_info = $this->reverse_hex(bin2hex($this->send_command_to_device(self::CMD_GET_FREE_SIZES)));
 
         if (!$free_sizes_info) {
@@ -566,7 +566,7 @@ class TADZKLib
      */
     private function build_command_response($command, $result_code, $result, $encoding, $result_filter_string=false)
     {
-        $response_data = [];
+        $response_data = array();
 
         $xml_tag = str_replace('_', ' ', $command);
         $base_xml_tag = join('', explode(' ', ucwords($xml_tag))) . 'Response';
@@ -577,7 +577,7 @@ class TADZKLib
                 $response = $xml_header . '<' . $base_xml_tag . '>' . '</' . $base_xml_tag . '>';
                 return $response;
             }
-            $response_data = ['Row'=>$result];
+            $response_data = array('Row'=>$result);
         } else {
             if (!is_bool($result) && true === $result_code) {
                 $result_filter_string = $result_filter_string ? $result_filter_string : null;
@@ -588,7 +588,7 @@ class TADZKLib
             }
 
             $result_code = $result_code ? '1' : '0';
-            $response_data = ['Row'=>['Result'=> $result_code, 'Information'=> $result_data]];
+            $response_data = array('Row'=>array('Result'=> $result_code, 'Information'=> $result_data));
         }
 
         return $this->array_to_xml(new \SimpleXMLElement('<' . $base_xml_tag . '/>'), $response_data, $encoding);
@@ -609,7 +609,7 @@ class TADZKLib
      * @param array $dt input 'datetime' array.
      * @return array array generated.
      */
-    private function setup_datetime(array $dt=[])
+    private function setup_datetime(array $dt=array())
     {
         $now = explode(' ', date("Y-m-d H:i:s"));
         $dt = array_filter($dt, 'strlen');
@@ -620,9 +620,9 @@ class TADZKLib
         $date = explode('-', $dt['date']);
         $time = explode(':', $dt['time']);
 
-        return [
+        return array(
             'year'=>$date[0], 'month'=>$date[1], 'day'=>$date[2],
-            'hour'=>$time[0], 'minute'=>$time[1], 'second'=>$time[2]];
+            'hour'=>$time[0], 'minute'=>$time[1], 'second'=>$time[2]);
     }
 
     /**
