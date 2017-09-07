@@ -109,13 +109,13 @@ class TAD
      *
      * @var array
      */
-    static private $parseable_args = [
+    static private $parseable_args = array(
         'com_key', 'pin', 'time', 'template',
         'name', 'password', 'group', 'privilege',
         'card', 'pin2', 'tz1', 'tz2', 'tz3',
         'finger_id', 'option_name', 'date',
         'size', 'valid', 'value'
-    ];
+    );
 
     /**
      * @var string Device ip address.
@@ -184,7 +184,7 @@ class TAD
      *
      * @return array SOAP commands list.
      */
-    public static function soap_commands_available(array $options = [])
+    public static function soap_commands_available(array $options = array())
     {
         return TADSoap::get_commands_available($options);
     }
@@ -219,7 +219,7 @@ class TAD
     public static function is_device_online($ip, $timeout = 1)
     {
         $handler = curl_init($ip);
-        curl_setopt_array($handler, [ CURLOPT_TIMEOUT => $timeout, CURLOPT_RETURNTRANSFER => true ]);
+        curl_setopt_array($handler, array( CURLOPT_TIMEOUT => $timeout, CURLOPT_RETURNTRANSFER => true ));
         $response = curl_exec($handler);
         curl_close($handler);
 
@@ -233,7 +233,7 @@ class TAD
      * @param TADZKLib $zklib_provider <code><b>ZKLib</b></code> class instance.
      * @param array $options device parameters.
      */
-    public function __construct(TADSoap $soap_provider, TADZKLib $zklib_provider, array $options = [])
+    public function __construct(TADSoap $soap_provider, TADZKLib $zklib_provider, array $options = array())
     {
         $this->ip = $options['ip'];
         $this->internal_id = (integer) $options['internal_id'];
@@ -266,7 +266,7 @@ class TAD
      */
     public function __call($command, array $args)
     {
-        $command_args = count($args) === 0 ? [] : array_shift($args);
+        $command_args = count($args) === 0 ? array() : array_shift($args);
 
         $this->check_for_connection() &&
         $this->check_for_valid_command($command) &&
@@ -290,9 +290,9 @@ class TAD
      * @param array $args command args.
      * @return string device response.
      */
-    public function execute_command_via_tad_soap($command, array $args = [])
+    public function execute_command_via_tad_soap($command, array $args = array())
     {
-        $command_args = $this->config_array_items(array_merge(['com_key' => $this->get_com_key()], $args));
+        $command_args = $this->config_array_items(array_merge(array('com_key' => $this->get_com_key()), $args));
 
         return $this->tad_soap->execute_soap_command($command, $command_args, $this->encoding);
     }
@@ -308,10 +308,10 @@ class TAD
      * @param array $args command args.
      * @return string string device response.
      */
-    public function execute_command_via_zklib($command, array $args = [])
+    public function execute_command_via_zklib($command, array $args = array())
     {
         $command_args = $this->config_array_items($args);
-        $response = $this->zklib->{$command}(array_merge(['encoding'=>$this->encoding], $command_args));
+        $response = $this->zklib->{$command}(array_merge(array('encoding'=>$this->encoding), $command_args));
 
         return $response;
     }
@@ -454,7 +454,7 @@ class TAD
      */
     private function check_for_refresh_tad_db($command_executed)
     {
-        preg_match('/^(set_|delete_)/', $command_executed) && $this->execute_command_via_tad_soap('refresh_db', []);
+        preg_match('/^(set_|delete_)/', $command_executed) && $this->execute_command_via_tad_soap('refresh_db', array());
     }
 
     /**
@@ -466,7 +466,7 @@ class TAD
      */
     private function config_array_items(array $values)
     {
-        $normalized_args = [];
+        $normalized_args = array();
 
         foreach (static::get_valid_commands_args() as $parseable_arg_key) {
             $normalized_args[$parseable_arg_key] =
