@@ -21,7 +21,7 @@
     <tbody>
         <?php
             $b = 1;
-            foreach($permohonan->result() as $row){
+            foreach($sen_permohonan->result() as $row){
 				$shift = pcrs_wbb_starttime($row->justifikasi_user_id, $row->rpt_tarikh);
         ?>
         <tr>
@@ -68,7 +68,7 @@
             ?>
             </td>
             <td>
-            	<?php if($row->justifikasi_status == 'M'){?>
+            	<?php if($row->justifikasi_status == 'M') { ?>
             	<div class="alert alert-warning" style="text-align:center">
                 	<b>Permohonan Punch-In :</b> <?php echo $row->justikasi_masa ?>
                     <p>
@@ -93,7 +93,7 @@
         <?php }?>
     </tbody>
 </table>
-Jumlah : <?php echo $permohonan->num_rows()?></div>
+Jumlah : <?php echo $sen_permohonan->num_rows()?></div>
         </div>
     </div>
 

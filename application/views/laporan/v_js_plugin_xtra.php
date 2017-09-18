@@ -94,13 +94,13 @@ $(document).ready(function() {
 		//validate
 		if(($("#txtTarikh").val().length > 0)&&($("#txtFrom").val().length > 0)&&($("#txtTo").val().length > 0)&&($("#txtPerihalPermohonan").val().length > 0)) {
 			var str = $('#frm-param-timeslip').serialize();
+			console.log(str);
 			$.ajax({
 				type: 'POST',
 				url: base_url+'mohon/timeslip_mohon',
 				data: str,
 				success: function(data, textStatus, qXHR){
-						alert(data);
-						//location.reload();
+					location.reload();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					alert(textStatus + ": " + errorThrown);
@@ -200,16 +200,16 @@ $(document).ready(function() {
 	});
 
 	$('#cmdKelulusanJustifikasi').click(function(){
-		if($('#comRptKakitangan').val() != 0 ){
+		//if($('#comRptKakitangan').val() != 0 ){
     	var str = $('#frm-kelulusan-justifikasi').serialize();
 			$("#senarai_justifikasi").empty().html('<br/><div class="att-loader"><img src="'+base_url+'assets/images/loaderb64.gif" /></div>');
 			$.post(base_url+'kelulusan/justifikasi', str, function(data){
 				$('#senarai_justifikasi').html(data);
 			});
-		}
+		/*}
 		else {
 			alert("Sila buat pilihan bahagian");
-		}
+		}*/
 	});
 
 	$(document).on('click', '.btn-lulus-justifikasi', function() {

@@ -26,6 +26,7 @@ class Kelulusan extends MY_Controller {
 	public function timeslip()
 	{
 		$this->load->model('mtimeslip', 'timeslip');
+
 		if(isset($_POST['mohon_id'])){
 			$mohon_id = $this->input->post('mohon_id');
 			$flag = $this->input->post('flag');
@@ -77,8 +78,43 @@ class Kelulusan extends MY_Controller {
 
 	public function justifikasi()
 	{
-		if($this->input->post('deptid'))
-		{
+		//dd($this->input->server("REQUEST_METHOD"));
+		if($this->input->server("REQUEST_METHOD")=="POST") {
+			if($this->input->post('status'))
+			{
+				$this->load->model('mjustifikasi');
+				$user_id = $this->input->post('userid');
+				$tarikh = $this->input->post('tarikh');
+				$status = $this->input->post('status');
+
+				$this->mjustifikasi->do_update($user_id, $tarikh, $status);
+
+				if($status == 'L')
+				{
+					$this->load->model('muserlewat');
+					$this->muserlewat->do_update($user_id, $tarikh, array('INDICATOR'=>1));
+				}
+
+				$rst_pemohon = $this->mjustifikasi->get_maklumat_permohonan($user_id, $tarikh);
+				$row = $rst_pemohon->row();
+				$email_pemohon = $row->street;
+				$data['pemohon'] = $row;
+				$data['hari'] = $this->config->item('pcrs_hari');
+
+				//send mail kepada pemohon
+				$this->load->model('muserinfo');
+				$title = '[PCRS] Status Permohonan Justifikasi Kehadiran oleh ' . $row->Name . ' pada ' . date('d-m-Y',strtotime($tarikh));
+				$message = $this->load->view('kelulusan/v_emel_justifikasi_notify', $data, TRUE);
+				if(ENVIRONMENT != 'development')
+				{
+					pcrs_send_email($email_pemohon, $title, $message, '', '');
+				}
+				else
+				{
+					pcrs_send_email('mdridzuan@melaka.gov.my', $title, $message, '', '');
+				}
+			}
+
 			$this->load->model('mjustifikasi');
 			$this->load->model('muserinfo');
 
@@ -88,50 +124,17 @@ class Kelulusan extends MY_Controller {
 			$bulan = $this->input->post('txtBulan');
 			$tahun = $this->input->post('txtTahun');
 
-			$data['permohonan'] = $this->mjustifikasi->get_permohonan_justifikasi2($dept_id, $user_id, $bulan, $tahun);
+			//$data['permohonan'] = $this->mjustifikasi->get_permohonan_justifikasi2($dept_id, $user_id, $bulan, $tahun);
+			$data['sen_permohonan'] = $this->mjustifikasi->permohonan_under_ppp($user_id, $bulan, $tahun);
 			$data['list_wbb_name'] = $this->muserinfo->get_list_wbb('n');
 			$data['list_wbb_time'] = $this->muserinfo->get_list_wbb('t');
 
 			$this->load->view('kelulusan/v_senarai_justifikasi', $data);
 		}
-		elseif($this->input->post('status'))
-		{
-			$this->load->model('mjustifikasi');
-			$user_id = $this->input->post('userid');
-			$tarikh = $this->input->post('tarikh');
-			$status = $this->input->post('status');
-
-			$this->mjustifikasi->do_update($user_id, $tarikh, $status);
-
-			if($status == 'L')
-			{
-				$this->load->model('muserlewat');
-				$this->muserlewat->do_update($user_id, $tarikh, array('INDICATOR'=>1));
-			}
-
-			$rst_pemohon = $this->mjustifikasi->get_maklumat_permohonan($user_id, $tarikh);
-			$row = $rst_pemohon->row();
-			$email_pemohon = $row->street;
-			$data['pemohon'] = $row;
-			$data['hari'] = $this->config->item('pcrs_hari');
-
-			//send mail kepada pemohon
-			$this->load->model('muserinfo');
-			$title = '[PCRS] Status Permohonan Justifikasi Kehadiran oleh ' . $row->Name . ' pada ' . date('d-m-Y',strtotime($tarikh));
-			$message = $this->load->view('kelulusan/v_emel_justifikasi_notify', $data, TRUE);
-			if(ENVIRONMENT != 'development')
-			{
-				pcrs_send_email($email_pemohon, $title, $message, '', '');
-			}
-			else
-			{
-				pcrs_send_email('mdridzuan@melaka.gov.my', $title, $message, '', '');
-			}
-		}
-		else
-		{
-			$this->load->model('mdepartment', 'department');
-			$data['departments'] = pcrs_rst_to_option($this->department->getUnits(1), array('DEPTID', 'DEPTNAME'), true);
+		else {
+			$this->load->model('muserinfo', 'ui');
+			//$data['departments'] = pcrs_rst_to_option($this->department->getUnits(1), array('DEPTID', 'DEPTNAME'), true);
+			$data['sen_pyd'] = $this->ui->under_ppp($this->session->userdata("nokp"));
 			$data["segmen"] = $this->uri->segment(1);
 			$tpl['js_plugin_xtra'] = array($this->load->view('laporan/v_js_plugin_xtra', '', true));
 			$tpl['main_content'] = $this->load->view('kelulusan/v_justifikasi', $data, TRUE);

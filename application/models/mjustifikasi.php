@@ -116,7 +116,7 @@ class MJustifikasi extends CI_Model {
 					{
 							$sql .= " AND USERINFO.USERID = " . $user_id;
 					}
-					else if($this->session->userdata('role') == 4)
+					else if($this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
 					{
 						$sql .= " AND USERINFO.OPHONE = '" . $this->session->userdata('nokp') . "'";
 						$sql .= " AND USERINFO.USERID <> " . $this->session->userdata('uid');
@@ -134,7 +134,7 @@ class MJustifikasi extends CI_Model {
 					}
 					else
 					{
-						if($this->session->userdata('role') == 4)
+						if($this->session->userdata('role') == 2 || $this->session->userdata('role') == 4)
 						{
 							$sql .= " AND USERINFO.USERID = " . $this->session->userdata('uid');
 							$sql .= " AND USERINFO.USERID <> " . $this->session->userdata('uid');
@@ -151,8 +151,37 @@ class MJustifikasi extends CI_Model {
 				and MONTH(rpt_tarikh) = $bulan
 				and YEAR(rpt_tarikh) = $tahun
 				order by rpt_tarikh";
-		
+
 		$rst = $this->db->query($sql);
+		return $rst;
+	}
+
+	public function permohonan_under_ppp($user_id, $bulan, $tahun)
+	{
+		$sql = "SELECT dbo.USERINFO.NAME, dbo.att_final_attendance.rpt_id, convert(varchar(10), rpt_tarikh, 120) AS rpt_tarikh,
+		convert(varchar, rpt_check_in, 120) AS rpt_check_in, convert(varchar, rpt_check_out, 120) AS rpt_check_out,
+		pcrs.att_justifikasi_kehadiran.justifikasi_alasan, pcrs.att_justifikasi_kehadiran.justifikasi_alasan_2,
+		pcrs.att_justifikasi_kehadiran.justikasi_masa, pcrs.att_justifikasi_kehadiran.justifikasi_status,
+		pcrs.att_justifikasi_kehadiran.justifikasi_user_id
+		FROM dbo.att_final_attendance LEFT JOIN pcrs.att_justifikasi_kehadiran ON convert(varchar(10), dbo.att_final_attendance.rpt_tarikh, 120)= convert(varchar(10),pcrs.att_justifikasi_kehadiran.justifikasi_tkh_terlibat, 120)
+		AND dbo.att_final_attendance.rpt_userid = pcrs.att_justifikasi_kehadiran.justifikasi_user_id INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = dbo.att_final_attendance.rpt_userid
+		WHERE 1 = 1";
+
+		if( $this->session->userdata('role')!=1 ) {
+			$sql .= " AND dbo.USERINFO.OPHONE = '" . $this->session->userdata("nokp") . "'";
+		}
+
+		if( $user_id ) {
+			$sql .= " AND dbo.USERINFO.USERID = $user_id";
+		}
+
+		$sql .= " AND rpt_flag = 'TS'
+				AND justifikasi_status = 'M'
+				AND MONTH(rpt_tarikh) = ?
+				AND YEAR(rpt_tarikh) = ?
+				ORDER BY rpt_tarikh";
+
+		$rst = $this->db->query($sql,[$bulan,$tahun]);
 		return $rst;
 	}
 

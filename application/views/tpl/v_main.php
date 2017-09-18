@@ -315,6 +315,19 @@
                                 </li>
                             </ul>
                         </li>
+                        <?php if($this->session->userdata('role')==1 || $this->session->userdata('ppp')){?>
+                        <li>
+                            <a href="#"><i class="glyphicon glyphicon-check"></i> Kelulusan<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?php echo base_url() ?>kelulusan/justifikasi">Justifikasi Kehadiran</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Permohonan Keluar</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <?php }?>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Laporan<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -359,21 +372,7 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-
-                        <?php if($this->session->userdata('role')==1 || $this->session->userdata('ppp')){?>
-                        <li>
-                            <a href="#"><i class="glyphicon glyphicon-check"></i> Kelulusan<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<?php echo base_url() ?>kelulusan/justifikasi">Justifikasi Kehadiran</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Permohonan Keluar</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <?php }?>
-						            <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5){?>
+			            <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5){?>
                         <li>
                             <a href="#"><i class="fa fa-gear fa-fw"></i> Setting<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

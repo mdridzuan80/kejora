@@ -325,7 +325,8 @@ class Kakitangan extends MY_Controller {
 	public function bahagian_user()
 	{
 		$this->load->model('muserinfo', 'userinfo');
-		$vars['pilihan'] = pcrs_rst_to_option($this->userinfo->getByUnitID($this->input->post('id', TRUE)), array('USERID','NAME'), TRUE);
+		//$vars['pilihan'] = pcrs_rst_to_option($this->userinfo->getByUnitID($this->input->post('id', TRUE)), array('USERID','NAME'), TRUE);
+		$vars['pilihan'] = pcrs_rst_to_option($this->userinfo->under_ppp($this->session->userdata("nokp")), array('USERID','NAME'), TRUE);
 		$this->load->view('tpl/option', $vars);
 	}
 

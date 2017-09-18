@@ -45,59 +45,60 @@ class Mohon extends MY_Controller {
 
 	public function timeslip_mohon()
 	{
-		if(isset($_POST['comRptKakitangan'])){
-			$fields['ts_userid'] = $this->input->post('comRptKakitangan');
-			$fields['ts_jenis'] = $this->input->post('comJenis');
-			$fields['ts_tkh_terlibat'] = date('Y-m-d',strtotime($this->input->post('txtTarikh')));
-			$fields['ts_chkin'] = date('Y-m-d H:i',strtotime($this->input->post('txtTarikh') . ' ' . $this->input->post('txtFrom')));
-			$fields['ts_chkout'] = date('Y-m-d H:i',strtotime($this->input->post('txtTarikh') . ' ' . $this->input->post('txtTo')));
-			$fields['ts_alasan'] = $this->input->post('txtPerihalPermohonan');
+		if($this->input->server('REQUEST_METHOD') == "POST"){
 
 			$this->load->model('mtimeslip','timeslip');
 			$this->load->model('mpelulus','pelulus');
 			$this->load->model('muserinfo','userinfo');
 
-				$rst_pelulus = $this->userinfo->getPPP($this->input->post('comRptKakitangan'));
+			$uid = $this->session->userdata('uid');
 
-				if($rst_pelulus->num_rows)
+			$rst_pelulus = $this->userinfo->getPPP($uid);
+
+			if($rst_pelulus->num_rows())
+			{
+				$data['rst_info_pemohon'] = $this->userinfo->getUserInfo($uid);
+				if($data['rst_info_pemohon']->num_rows())
 				{
-					$data['rst_info_pemohon'] = $this->userinfo->getUserInfo($this->input->post('comRptKakitangan'));
-					if($data['rst_info_pemohon']->num_rows())
+					$fields['ts_userid'] = $uid;
+					$fields['ts_jenis'] = $this->input->post('comJenis');
+					$fields['ts_tkh_terlibat'] = date('Y-m-d',strtotime($this->input->post('txtTarikh')));
+					$fields['ts_chkin'] = date('Y-m-d H:i',strtotime($this->input->post('txtTarikh') . ' ' . $this->input->post('txtFrom')));
+					$fields['ts_chkout'] = date('Y-m-d H:i',strtotime($this->input->post('txtTarikh') . ' ' . $this->input->post('txtTo')));
+					$fields['ts_alasan'] = $this->input->post('txtPerihalPermohonan');
+
+					$info_pemohon = $data['rst_info_pemohon']->row();
+					$pemohon = $info_pemohon->NAME;
+					$data['name'] = $pemohon;
+					$data['jenis'] = $fields['ts_jenis'];
+					$data['check_in'] = $fields['ts_chkin'];
+					$data['check_out'] = $fields['ts_chkout'];
+					$data['alasan'] = $fields['ts_alasan'];
+					$data['hari'] = $this->config->item('pcrs_hari');
+					$title = '[PCRS] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
+					$message = $this->load->view('permohonan/v_emel_notify', $data, TRUE);
+
+					if($this->timeslip->do_mohon($fields))
 					{
-						$info_pemohon = $data['rst_info_pemohon']->row();
-						$pemohon = $info_pemohon->NAME;
-						$data['name'] = $pemohon;
-						$data['jenis'] = $fields['ts_jenis'];
-						$data['check_in'] = $fields['ts_chkin'];
-						$data['check_out'] = $fields['ts_chkout'];
-						$data['alasan'] = $fields['ts_alasan'];
-						$data['hari'] = $this->config->item('pcrs_hari');
-						$title = '[PCRS] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
-						$message = $this->load->view('permohonan/v_emel_notify', $data, TRUE);
-						
-						if($this->timeslip->do_mohon($fields))
-						{	
-							$this->load->library("notifikasi");
-							$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message); // emel dia...
-							echo "Permohonan anda telah di hantar";
-						}
-						else
-						{
-							echo "Ralat! Permohonan tidak berjaya disimpan.";
-						}
+						//TEMP (Ridzuan): Disable send email
+						/*$this->load->library("notifikasi");
+						$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message);*/
+						echo "Permohonan anda telah di hantar";
+					}
+					else
+					{
+						echo "Ralat! Permohonan tidak berjaya disimpan.";
 					}
 				}
-				else
-				{
-					echo "Ralat! Sila pastikan bahagian pemohon memiliki pelulus.";
-				}
-			
+			}
+			else
+			{
+				echo "Ralat! Sila pastikan bahagian pemohon memiliki pelulus.";
+			}
+
 		}
 		else
 		{
-			$this->load->model('mdepartment','department');
-
-			$data['departments'] = pcrs_rst_to_option($this->department->getUnits(1), array('DEPTID','DEPTNAME'),TRUE);
 			$data['js_plugin_xtra'] = array($this->load->view('laporan/v_js_plugin_xtra', '', TRUE));
 			$this->load->view('permohonan/v_popup_timeslip_mohon', $data);
 		}

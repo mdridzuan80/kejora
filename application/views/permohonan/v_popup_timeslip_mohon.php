@@ -6,7 +6,6 @@
 	<div class="row">
         <form id="frm-param-timeslip" class="form-horizontal" role="form">
             <div class="col-lg-8 col-lg-offset-2">
-                <input id="comRptKakitangan" name="comRptKakitangan" type="hidden" value="<?php echo $this->session->userdata('uid')?>">
                 <div class="form-group">
                     <label class="control-label">Jenis Permohonan</label>
                     <select id="comJenis" name="comJenis" class="form-control input-sm">

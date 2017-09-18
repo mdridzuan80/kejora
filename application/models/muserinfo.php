@@ -68,15 +68,22 @@
 			}
 			if($this->input->post('segmen') == 'kelulusan')
 			{
-				if( $this->session->userdata('role')!=2 && $this->session->userdata('role')!=1 )
+				if( $this->session->userdata('role')!=1 )
 					$this->db->where('USERID <>', $this->session->userdata('uid'));
 			}
 			$this->db->where('DEFAULTDEPTID',$id);
 			$this->db->order_by('USERINFO.NAME');
 			$query = $this->db->get('dbo.USERINFO');
-			//echo $this->input->post('segmen');
-			//echo $this->db->last_query();
 			return $query;
+		}
+
+		public function under_ppp($nokp)
+		{
+			$this->db->from("dbo.USERINFO");
+			if( $this->session->userdata('role')!=1 )
+				$this->db->where("OPHONE",$nokp);
+			$rst = $this->db->get();
+			return $rst->result();
 		}
 
 		public function getByUnitID_PPP($id) {
@@ -121,8 +128,8 @@
 		{
 			$sql = "SELECT USERINFO.USERID, USERINFO.Name, a.DEPTID
 					FROM (USERINFO INNER JOIN DEPARTMENTS ON USERINFO.DEFAULTDEPTID = DEPARTMENTS.DEPTID) INNER JOIN DEPARTMENTS AS a ON DEPARTMENTS.SUPDEPTID =a.DEPTID
-					WHERE a.DEPTID = " . $deptid . " ORDER BY USERINFO.Name";
-			$query = $this->db->query($sql);
+					WHERE a.DEPTID = ? ORDER BY USERINFO.Name";
+			$query = $this->db->query($sql,[$deptid]);
 			return $query;
 		}
 
@@ -290,7 +297,7 @@
 				FROM USERINFO INNER JOIN USERINFO AS USERINFO_1 ON USERINFO.OPHONE = USERINFO_1.SSN
 				WHERE (((USERINFO.OPHONE)<>''))
 				AND USERINFO.USERID=?";
-			$query=$this->db->query($sql,  array('USERID' => $userid));
+			$query=$this->db->query($sql,  array($userid));
 			return $query;
 		}
 
