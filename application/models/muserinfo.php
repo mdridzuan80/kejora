@@ -129,7 +129,7 @@
 			$sql = "SELECT USERINFO.USERID, USERINFO.Name, a.DEPTID
 					FROM (USERINFO INNER JOIN DEPARTMENTS ON USERINFO.DEFAULTDEPTID = DEPARTMENTS.DEPTID) INNER JOIN DEPARTMENTS AS a ON DEPARTMENTS.SUPDEPTID =a.DEPTID
 					WHERE a.DEPTID = ? ORDER BY USERINFO.Name";
-			$query = $this->db->query($sql,[$deptid]);
+			$query = $this->db->query($sql,array($deptid));
 			return $query;
 		}
 
