@@ -11,9 +11,11 @@ user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 
 #codeigniter 3
-index.php
+/index.php
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
 _notes/
+.DS_Store
+.DS_Store?
