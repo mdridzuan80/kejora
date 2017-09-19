@@ -13,12 +13,15 @@ function pcrs_rst_to_array($query, $field)
 function pcrs_rst_to_option($query, $field, $pilih=FALSE)
 {
 	$array = array();
+
 	if($pilih)
 		$array[-1] = '[sila pilih]';
+
 	foreach($query->result_array() as $row)
 	{
 		$array[$row[$field[0]]] = $row[$field[1]];
 	}
+	
 	return $array;
 }
 

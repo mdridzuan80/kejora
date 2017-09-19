@@ -9,7 +9,8 @@ $(document).ready(function() {
 		var segmen = $('#segmen').val();
 		if(this.checked) {
 			$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_arkib",{"id":bahagianID, "segmen":segmen});
-		} else {
+		}
+		else {
 			$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user",{"id":bahagianID, "segmen":segmen});
 		}
 	});
@@ -22,7 +23,7 @@ $(document).ready(function() {
 					if(chkArkib.is(':checked')) {
 						$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_arkib",{"id":newValue, "segmen":segmen});
 					} else {
-						$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user",{"id":bahagianID, "segmen":segmen});
+						$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_2",{"id":bahagianID, "segmen":segmen});
 					}
 				}
 
