@@ -8,11 +8,11 @@ class Cron extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		/* if(!$this->input->is_cli_request())
+		if(!$this->input->is_cli_request())
 	     {
 	       echo 'Not allowed';
 	       exit();
-	     } */
+	     }
 	}
 
 	public function index()
@@ -254,7 +254,7 @@ class Cron extends CI_Controller {
 
 		$tkh_semasa = date('Y-m-d');
 		$rst_lewat = $this->mlaporan->get_lewat($tkh_semasa);
-		
+
 		if($rst_lewat->num_rows())
 		{
 			foreach($rst_lewat->result() as $lewat)
@@ -295,7 +295,7 @@ class Cron extends CI_Controller {
 			$subject = "[PCRS] " . $row_staff->Name . " Telah Hadir Lewat ke Pejabat pada " . date('d/m/Y', strtotime($objLewat->CHECKTIME));
 
 			if($row_staff->SS_SATU == 'SS')
-			{				
+			{
 				if($this->mpelulus->chk_kj($row_staff->USERID))
 				{
 					$this->notifikasi->sendSms($row_staff->TEL_PEG_SATU, $message);

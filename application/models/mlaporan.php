@@ -173,7 +173,7 @@ class MLaporan extends CI_Model {
 
 		//jika hari cuti, sabtu dan ahad
 		//dapatkan rekod first-in, last-out
-		if((isset($cuti[date('Y-m-d', strtotime($tkh))])) || (date("N", strtotime($tkh)) == 5) || (date("N", strtotime($tkh)) == 6))
+		if((isset($cuti[date('Y-m-d', strtotime($tkh))])) || (date("N", strtotime($tkh)) == 4) || (date("N", strtotime($tkh)) == 5))
 		{
 			$rpt_check_in = ($this->rpt_kehadiran_in_first($userid, $tkh))?$this->rpt_kehadiran_in_first($userid, $tkh):NULL;
 			$rpt_check_out = ($this->rpt_kehadiran_out_last($userid, $tkh))?$this->rpt_kehadiran_out_last($userid, $tkh):NULL;
@@ -194,7 +194,7 @@ class MLaporan extends CI_Model {
 
 		if(!isset($cuti[date('Y-m-d', strtotime($tkh))]))
 		{
-			if((date("N", strtotime($tkh)) != 5) && (date("N", strtotime($tkh)) != 6))
+			if((date("N", strtotime($tkh)) != 4) && (date("N", strtotime($tkh)) != 5))
 			{
 				if($shift != false)
 				{
