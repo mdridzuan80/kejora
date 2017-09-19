@@ -10,14 +10,14 @@ $().ready(function() {
 				url: base_url+'kelulusan/timeslip',
 				data: {'mohon_id':mohonid, 'flag':'L'},
 				success: function(d){
-						location.reload();
-				}			
+					location.reload();
+				}
 			});
 		}else{
-			return false;	
+			return false;
 		}
 	});
-	
+
 	$('.btn-pengesahan').click(function(){
 		ans = confirm('Adakah anda ingin membuat pengesahan ini?');
 		if(ans){
@@ -28,13 +28,13 @@ $().ready(function() {
 				data: {'mohon_id':mohonid},
 				success: function(d){
 						location.reload();
-				}			
+				}
 			});
 		}else{
-			return false;	
+			return false;
 		}
 	});
-	
+
 	$('.btn-tolak').click(function(){
 		ans = confirm('Anda ingin menolak permohonan ini?');
 		if(ans){
@@ -45,10 +45,10 @@ $().ready(function() {
 				data: {'mohon_id':mohonid, 'flag':'T'},
 				success: function(d){
 						location.reload();
-				}			
+				}
 			});
 		}else{
-			return false;	
+			return false;
 		}
 	});
 });

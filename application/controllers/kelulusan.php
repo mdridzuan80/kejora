@@ -27,11 +27,12 @@ class Kelulusan extends MY_Controller {
 	{
 		$this->load->model('mtimeslip', 'timeslip');
 
-		if(isset($_POST['mohon_id'])){
+		if($this->input->server('REQUEST_METHOD') == "POST") {
 			$mohon_id = $this->input->post('mohon_id');
 			$flag = $this->input->post('flag');
 			$this->timeslip->setKelulusan($mohon_id, $flag);
 			$rst = $this->timeslip->get_maklumat($mohon_id);
+
 			$row = $rst->row();
 			$data['pemohon'] = $row;
 			$data['hari'] = $this->config->item('pcrs_hari');
@@ -40,17 +41,11 @@ class Kelulusan extends MY_Controller {
 			$title = '[PCRS] Status Permohonan Keluar oleh ' . $row->Name . ' pada ' . date('d-m-Y',strtotime($row->ts_chkin));
 			$message = $this->load->view('kelulusan/v_emel_notify', $data, TRUE);
 			$email_pemohon = $this->muserinfo->get_mail_add($this->timeslip->get_user_id($mohon_id));
-			if(ENVIRONMENT != 'development')
-			{
-				pcrs_send_email($email_pemohon, $title, $message, '', '');
-			}
-			else
-			{
-				pcrs_send_email('mdridzuan@melaka.gov.my', $title, $message, '', '');
-			}
+
+			$this->load->library("notifikasi");
+			$this->notifikasi->sendEmail($email_pemohon, $title, $message);
 		}
-		else
-		{
+		else {
 			$this->load->model('mpelulus', 'pelulus');
 			$dept_priv = pcrs_rst_to_array($this->pelulus->getDeptId(), 'pl_deptid');
 			$data['permohonan'] = $this->timeslip->getPermohonanKelulusan($dept_priv);

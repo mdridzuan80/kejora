@@ -476,7 +476,7 @@
 		{
 			$query = $this->db->get_where('dbo.USERINFO', array('USERID' => $userid));
 			$row = $query->row();
-			return $row->street;
+			return $row->Email;
 		}
 
 		public function insert_xtra($data)

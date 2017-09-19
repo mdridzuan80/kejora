@@ -45,7 +45,7 @@ class Mohon extends MY_Controller {
 
 	public function timeslip_mohon()
 	{
-		if($this->input->server('REQUEST_METHOD') == "POST"){
+		if($this->input->server('REQUEST_METHOD') == "POST") {
 
 			$this->load->model('mtimeslip','timeslip');
 			$this->load->model('mpelulus','pelulus');
@@ -80,9 +80,8 @@ class Mohon extends MY_Controller {
 
 					if($this->timeslip->do_mohon($fields))
 					{
-						//TEMP (Ridzuan): Disable send email
-						/*$this->load->library("notifikasi");
-						$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message);*/
+						$this->load->library("notifikasi");
+						$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message);
 						echo "Permohonan anda telah di hantar";
 					}
 					else

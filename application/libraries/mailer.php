@@ -14,7 +14,7 @@ class Mailer extends PHPMailer
 		// 0 = off (for production use)
 		// 1 = client messages
 		// 2 = client and server messages
-		$this->SMTPDebug = 0;
+		$this->SMTPDebug = $CI->config->item("smtp_debug_level");
 		//Ask for HTML-friendly debug output
 		$this->Debugoutput = 'html';
 		//Set the hostname of the mail server
@@ -22,7 +22,7 @@ class Mailer extends PHPMailer
 		//Set the SMTP port number - likely to be 25, 465 or 587
 		$this->Port = $CI->config->item('smtp_port');
 		//Whether to use SMTP authentication
-		$this->SMTPAuth = true;
+		$this->SMTPAuth = $CI->config->item("smtp_require_auth");
 		//Username to use for SMTP authentication
 		$this->Username = $CI->config->item('smtp_user');
 		//Password to use for SMTP authentication

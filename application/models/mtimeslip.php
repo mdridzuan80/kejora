@@ -35,15 +35,21 @@ class MTimeslip extends CI_Model {
 
 	public function getPermohonanKelulusan($dept_id = array())
 	{
-		$this->db->select('b.ts_id, a.Badgenumber, a.Name, a.SSN, a.TITLE, convert(varchar, b.ts_chkout, 120) as ts_chkout, convert(varchar, b.ts_chkin, 120) as ts_chkin, b.ts_status, b.ts_alasan');
-		$this->db->from('USERINFO a');
+		$this->db->select('b.ts_id, a.Badgenumber, a.Name, a.SSN, a.TITLE, c.DEPTNAME, convert(varchar, b.ts_chkout, 120) as ts_chkout, convert(varchar, b.ts_chkin, 120) as ts_chkin, b.ts_status, b.ts_alasan');
+		$this->db->from('dbo.USERINFO a');
 		$this->db->join('PCRS.att_timeslip b', 'a.USERID=b.ts_userid');
+		$this->db->join('dbo.DEPARTMENTS c', 'a.DEFAULTDEPTID=c.DEPTID');
 		$this->db->where('b.ts_status','M');
-		if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5 or $this->session->userdata('role')==4)
+
+		if($this->session->userdata('role')!=1) {
+			$this->db->where("a.OPHONE",$this->session->userdata("nokp"));
+		}
+
+		/*if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5 or $this->session->userdata('role')==4)
 			$this->db->where('a.DEFAULTDEPTID',$this->session->userdata('dept'));
 		if($this->session->userdata('pelulus') == true)
-			$this->db->where_in('a.DEFAULTDEPTID',$dept_id);
-		$this->db->where('a.USERID <>', $this->session->userdata('uid'));
+			$this->db->where_in('a.DEFAULTDEPTID',$dept_id);*/
+		//$this->db->where('a.USERID <>', $this->session->userdata('uid'));
 		$this->db->order_by('6','desc');
 
 		$query = $this->db->get();

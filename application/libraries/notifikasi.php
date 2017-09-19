@@ -59,7 +59,7 @@ class Notifikasi
 				$this->CI->mailer->addBCC($rcpt);
 			}
 		}
-		else									
+		else
 		{
 			$this->CI->mailer->addBCC($rcpt_bcc);
 		}
@@ -98,93 +98,4 @@ class Notifikasi
        curl_close($post);
        return $result;
     }
-
-    function pcrs_send_phpmailer($rcpt_to, $title, $message, $rcpt_cc = array(), $rcpt_bcc = array(), $attachment = NULL)
-	{
-		$CI =& get_instance();
-		$CI->load->library('myphpmailer');
-
-		//setting
-		switch($CI->config->item('pcrs_email_protocol'))
-		{
-			case 'smtp':
-				$CI->myphpmailer->isSMTP();
-				break;
-		}
-		$CI->myphpmailer->SMTPDebug = $CI->config->item('pcrs_email_smtp_debug_level');
-		$CI->myphpmailer->Host = $CI->config->item('pcrs_email_smtp_host');
-		$CI->myphpmailer->SMTPAuth = $CI->config->item('pcrs_email_smtp_auth');
-		$CI->myphpmailer->Username = $CI->config->item('pcrs_email_smtp_user');
-		$CI->myphpmailer->Password = $CI->config->item('pcrs_email_smtp_pass');
-		$CI->myphpmailer->SMTPSecure = $CI->config->item('pcrs_email_smtp_secure');
-		$CI->myphpmailer->Port = $CI->config->item('pcrs_email_smtp_port');
-		$CI->myphpmailer->isHTML($CI->config->item('pcrs_email_mailtype_html'));
-		//End Setting
-
-		$CI->myphpmailer->clearAllRecipients();
-		$CI->myphpmailer->clearAttachments();
-
-		$CI->myphpmailer->setFrom($CI->config->item('pcrs_email_from'), $CI->config->item('pcrs_email_name'));
-
-		if(is_array($rcpt_to))
-		{
-			if(count($rcpt_to)!=0)
-			{
-				foreach($rcpt_to as $val)
-				{
-					$CI->myphpmailer->addAddress($val);
-				}
-			}
-		}
-		else
-		{
-			$CI->myphpmailer->addAddress($rcpt_to);
-		}
-
-		if(is_array($rcpt_cc))
-		{
-			if(count($rcpt_cc)!=0)
-			{
-				foreach($rcpt_cc as $val)
-				{
-					$CI->myphpmailer->addCC($val);
-				}
-			}
-		}
-		else
-		{
-			$CI->myphpmailer->addCC($rcpt_cc);
-		}
-
-		if(is_array($rcpt_bcc))
-		{
-			if(count($rcpt_bcc)!=0)
-			{
-				foreach($rcpt_bcc as $val)
-				{
-					$CI->myphpmailer->addBCC($val);
-				}
-			}
-		}
-		else
-		{
-			$CI->myphpmailer->addBCC($rcpt_bcc);
-		}
-
-		$CI->myphpmailer->Subject = $title;
-		$CI->myphpmailer->Body = $message;
-
-		if($attachment)
-		{
-			$CI->myphpmailer->addAttachment($attachment);
-		}
-		if($CI->myphpmailer->send())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 }

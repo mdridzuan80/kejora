@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Kelulusan Timeslip</h1>
+            <h1 class="page-header">Kelulusan Keluar Pejabat</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -20,6 +20,7 @@
                             <th>NAMA</th>
                             <th>NO. KP</th>
                             <th>JAWATAN</th>
+                            <th>BAHAGIAN</th>
                             <th>WAKTU KELUAR</th>
                             <th>WAKTU MASUK</th>
                             <th>ALASAN</th>
@@ -38,6 +39,7 @@
                             <td><?php echo $row->Name?></td>
                             <td><?php echo $row->SSN?></td>
                             <td><?php echo $row->TITLE?></td>
+                            <td><?php echo $row->DEPTNAME?></td>
                             <td><?php echo date("d-m-Y g:i a", strtotime($row->ts_chkin))?></td>
                             <td><?php echo date("d-m-Y g:i a", strtotime($row->ts_chkout))?></td>
                             <td><?php echo $row->ts_alasan?></td>
