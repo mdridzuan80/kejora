@@ -200,7 +200,7 @@ class MLaporan extends CI_Model {
 				{
 					if(!$rpt_check_in || !$rpt_check_out || (strtotime($rpt_check_in) > strtotime($tkh . ' ' . $shift[0])) || (strtotime($rpt_check_out) < strtotime($tkh . ' ' . $shift[2])))
 					{
-						if(date("N", strtotime($tkh)) == 5 && strtotime($rpt_check_out) < strtotime("-90 minutes",strtotime($tkh . ' ' . $shift[2])))
+						if(date("N", strtotime($tkh)) == 4 && strtotime($rpt_check_out) > strtotime("-90 minutes",strtotime($tkh . ' ' . $shift[2])))
 						{
 							$rpt_flag = 'C';
 						}
