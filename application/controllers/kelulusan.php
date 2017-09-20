@@ -48,7 +48,7 @@ class Kelulusan extends MY_Controller {
 		else {
 			$this->load->model('mpelulus', 'pelulus');
 			$dept_priv = pcrs_rst_to_array($this->pelulus->getDeptId(), 'pl_deptid');
-			$data['permohonan'] = $this->timeslip->getPermohonanKelulusan($dept_priv);
+			$data['permohonan'] = $this->timeslip->getPermohonanKelulusan($this->session->userdata('dept'), $this->session->userdata('nokp'));
 			$data['js_plugin_xtra'] = array($this->load->view('extrajs/v_js_kelulusan', '', TRUE));
 			$tpl['main_content'] = $this->load->view('kelulusan/v_timeslip_default', $data, TRUE);
 			$this->load->view('tpl/v_main', $tpl);

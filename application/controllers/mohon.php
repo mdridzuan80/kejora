@@ -26,7 +26,7 @@ class Mohon extends MY_Controller {
 	public function keluar()
 	{
 		$this->load->model('mtimeslip', 'timeslip');
-		$data['permohonan'] = $this->timeslip->getPermohonan();
+		$data['permohonan'] = $this->timeslip->getPermohonan($this->session->userdata('uid'));
 		$data['js_plugin_xtra'] = array($this->load->view('laporan/v_js_plugin_xtra', '', TRUE));
 		$tpl['main_content'] = $this->load->view('permohonan/v_timeslip_default', $data, TRUE);
 		$tpl['js_plugin'] = array('timepicker');
@@ -45,19 +45,27 @@ class Mohon extends MY_Controller {
 
 	public function timeslip_mohon()
 	{
-		if($this->input->server('REQUEST_METHOD') == "POST") {
-
+		if($this->input->server('REQUEST_METHOD') == "POST")
+		{
 			$this->load->model('mtimeslip','timeslip');
 			$this->load->model('mpelulus','pelulus');
 			$this->load->model('muserinfo','userinfo');
 
 			$uid = $this->session->userdata('uid');
 
-			$rst_pelulus = $this->userinfo->getPPP($uid);
+			if($this->session->userdata('role') != 2)
+			{
+				$rst_pelulus = $this->userinfo->getKetuaBahagian($this->session->userdata('dept'));
+			}
+			else
+			{
+				$rst_pelulus = $this->userinfo->getPPP($this->session->userdata('uid'));
+			}
 
 			if($rst_pelulus->num_rows())
 			{
 				$data['rst_info_pemohon'] = $this->userinfo->getUserInfo($uid);
+
 				if($data['rst_info_pemohon']->num_rows())
 				{
 					$fields['ts_userid'] = $uid;
@@ -105,16 +113,22 @@ class Mohon extends MY_Controller {
 
 	public function timeslip_batal()
 	{
-		if($this->input->post('id')){
+		if($this->input->post('id'))
+		{
 			$this->load->model('mtimeslip', 'timeslip');
 			$timeslip_id = $this->input->post('id');
-			if($this->timeslip->chk_status($timeslip_id) == 'M'){
+
+			if($this->timeslip->chk_status($timeslip_id) == 'M')
+			{
 				$cond = $this->timeslip->do_batal($timeslip_id);
+
 				if($cond)
 					echo 'TRUE';
 				else
 					echo 'FALSE';
-			} else {
+			}
+			else
+			{
 				echo 'FALSE';
 			}
 		}
@@ -142,6 +156,7 @@ class Mohon extends MY_Controller {
 			$this->load->model('mpelulus','pelulus');
 			$this->load->model('muserinfo','userinfo');
 			$permohonan_id = $this->away->do_mohon($fields);
+
 			if($permohonan_id)
 			{
 				$rst_pelulus = $this->pelulus->get_pelulus($this->userinfo->getDefaultDepartment($this->input->post('comRptKakitangan')));
@@ -436,18 +451,8 @@ class Mohon extends MY_Controller {
 				$emel_to[] = $pelulus->Email;
 		}
 
-		if( ENVIRONMENT == 'production' )
-		{
-			$this->load->library("notifikasi");
-			$this->notifikasi->sendEmail($emel_to, $title, $message); // emel dia...
-		}
-		else
-		{
-			$title .= ' (Devel)';
-			$emel_bcc[] = 'mdridzuan@melaka.gov.my';
-			$this->load->library("notifikasi");
-			$this->notifikasi->sendEmail($emel_bcc, $title, $message); // emel dia...
-		}
+		$this->load->library("notifikasi");
+		$this->notifikasi->sendEmail($emel_to, $title, $message); // emel dia...
 	}
 }
 

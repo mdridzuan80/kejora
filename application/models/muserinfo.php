@@ -557,7 +557,7 @@
 
 		public function getKetuaBahagian($bahagian = 0)
 		{
-			$sql = "select a.NAME, a.SSN, b.DEPTNAME
+			$sql = "select a.NAME, a.SSN, b.DEPTNAME, a.Email
 				from dbo.USERINFO a, dbo.DEPARTMENTS b, dbo.att_users c
 				where 1=1
 				and a.DEFAULTDEPTID = b.deptid

@@ -16,43 +16,84 @@ class MTimeslip extends CI_Model {
 		}
 	}
 
-	public function getPermohonan()
+	public function getPermohonan($user_id)
 	{
-		$sql = "select b.ts_id, a.Badgenumber, a.Name, a.SSN, a.TITLE, convert(varchar, b.ts_chkout, 120) as ts_chkout, convert(varchar, b.ts_chkin, 120) as ts_chkin, b.ts_status, b.ts_validatename, convert(varchar, b.ts_validate, 120) as ts_validate, b.ts_pengesah, convert(varchar, b.ts_date, 120) as ts_date
-			from USERINFO a, PCRS.att_timeslip b
-			where a.USERID=b.ts_userid
-			and b.ts_status <> 'B'";
+		$sql = 'SELECT
+			pcrs.att_timeslip.ts_userid,
+			dbo.USERINFO.BADGENUMBER,
+			dbo.USERINFO.NAME,
+			dbo.USERINFO.SSN,
+			dbo.USERINFO.TITLE,
+			pcrs.att_timeslip.ts_chkin,
+			pcrs.att_timeslip.ts_chkout,
+			pcrs.att_timeslip.ts_alasan,
+			pcrs.att_timeslip.ts_status,
+			pcrs.att_timeslip.ts_validateuserid,
+			pcrs.att_timeslip.ts_validatename,
+			pcrs.att_timeslip.ts_validate,
+			pcrs.att_timeslip.ts_pengesah,
+			pcrs.att_timeslip.ts_date,
+			pcrs.att_timeslip.ts_jenis,
+			pcrs.att_timeslip.ts_tkh_terlibat
 
-		if($this->session->userdata('role')==4)
-			$sql .= " and a.USERID = " . $this->session->userdata('uid');
-		if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5)
-			$sql .= " and a.DEFAULTDEPTID = " . $this->session->userdata('dept');
-		$sql .= " order by 6 desc";
+			FROM
+			pcrs.att_timeslip
+			INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = pcrs.att_timeslip.ts_userid
+			WHERE
+			pcrs.att_timeslip.ts_userid = ' . $user_id . ' ORDER BY pcrs.att_timeslip.ts_chkin DESC, pcrs.att_timeslip.ts_chkout ASC ';
 
 		$query = $this->db->query($sql);
 		return $query;
 	}
 
-	public function getPermohonanKelulusan($dept_id = array())
+	public function getPermohonanKelulusan($dept_id, $no_kp_ppp)
 	{
-		$this->db->select('b.ts_id, a.Badgenumber, a.Name, a.SSN, a.TITLE, c.DEPTNAME, convert(varchar, b.ts_chkout, 120) as ts_chkout, convert(varchar, b.ts_chkin, 120) as ts_chkin, b.ts_status, b.ts_alasan');
-		$this->db->from('dbo.USERINFO a');
-		$this->db->join('PCRS.att_timeslip b', 'a.USERID=b.ts_userid');
-		$this->db->join('dbo.DEPARTMENTS c', 'a.DEFAULTDEPTID=c.DEPTID');
-		$this->db->where('b.ts_status','M');
+		$sql = 'SELECT
+			pcrs.att_timeslip.ts_id,
+			dbo.USERINFO.BADGENUMBER,
+			dbo.USERINFO.NAME,
+			dbo.USERINFO.SSN,
+			dbo.USERINFO.TITLE,
+			dbo.DEPARTMENTS.DEPTNAME,
+			pcrs.att_timeslip.ts_chkin,
+			pcrs.att_timeslip.ts_chkout,
+			pcrs.att_timeslip.ts_alasan
 
-		if($this->session->userdata('role')!=1) {
-			$this->db->where("a.OPHONE",$this->session->userdata("nokp"));
-		}
+			FROM
+			pcrs.att_timeslip
+			INNER JOIN dbo.USERINFO ON pcrs.att_timeslip.ts_userid = dbo.USERINFO.USERID
+			INNER JOIN dbo.DEPARTMENTS ON dbo.USERINFO.DEFAULTDEPTID = dbo.DEPARTMENTS.DEPTID
+			WHERE
+			pcrs.att_timeslip.ts_id IN (SELECT
+			pcrs.att_timeslip.ts_id
 
-		/*if($this->session->userdata('role')==2 or  $this->session->userdata('role')==3 or $this->session->userdata('role')==5 or $this->session->userdata('role')==4)
-			$this->db->where('a.DEFAULTDEPTID',$this->session->userdata('dept'));
-		if($this->session->userdata('pelulus') == true)
-			$this->db->where_in('a.DEFAULTDEPTID',$dept_id);*/
-		//$this->db->where('a.USERID <>', $this->session->userdata('uid'));
-		$this->db->order_by('6','desc');
+			FROM
+			pcrs.att_timeslip
+			INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = pcrs.att_timeslip.ts_userid
+			WHERE
+			pcrs.att_timeslip.ts_status = \'M\' AND
+			dbo.USERINFO.DEFAULTDEPTID = '. $dept_id . '
+			UNION
+			SELECT
+			pcrs.att_timeslip.ts_id
 
-		$query = $this->db->get();
+			FROM
+			pcrs.att_timeslip
+			INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = pcrs.att_timeslip.ts_userid
+			WHERE
+			pcrs.att_timeslip.ts_status = \'M\' AND
+			dbo.USERINFO.OPHONE = \''. $no_kp_ppp . '\' AND
+			pcrs.att_timeslip.ts_userid NOT IN (SELECT
+			pcrs.att_timeslip.ts_userid
+
+			FROM
+			pcrs.att_timeslip
+			INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = pcrs.att_timeslip.ts_userid
+			WHERE
+			pcrs.att_timeslip.ts_status = \'M\' AND
+			dbo.USERINFO.DEFAULTDEPTID = ' . $dept_id . ')) ORDER BY pcrs.att_timeslip.ts_chkin DESC, pcrs.att_timeslip.ts_chkout ASC';
+
+		$query = $this->db->query($sql);
 
 		return $query;
 	}

@@ -35,8 +35,8 @@
 						?>
                         <tr>
                             <td width="1px"><?php echo $x++;?></td>
-                            <td width="1px"><?php echo $row->Badgenumber?></td>
-                            <td><?php echo $row->Name?></td>
+                            <td width="1px"><?php echo $row->BADGENUMBER?></td>
+                            <td><?php echo $row->NAME?></td>
                             <td><?php echo $row->SSN?></td>
                             <td><?php echo $row->TITLE?></td>
                             <td><?php echo $row->DEPTNAME?></td>

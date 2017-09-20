@@ -39,8 +39,8 @@
 						?>
                         <tr>
                             <td width="1px"><?php echo $x++;?></td>
-                            <td width="1px"><?php echo $row->Badgenumber?></td>
-                            <td><?php echo $row->Name?></td>
+                            <td width="1px"><?php echo $row->BADGENUMBER?></td>
+                            <td><?php echo $row->NAME?></td>
                             <td><?php echo $row->SSN?></td>
                             <td><?php echo $row->TITLE?></td>
                             <td><?php echo date("d-m-Y g:i a", strtotime($row->ts_chkin))?></td>
@@ -52,9 +52,9 @@
 											echo '<button class="btn btn-warning btn-xs" type="button" title="Masih dalam Permohonan" data-placement="bottom" data-toggle="tooltip" data-original-title="Masih dalam Permohonan"><span class="glyphicon glyphicon-question-sign"></span></button>';
 										break;
 										case 'L':
-											echo '<button class="btn btn-success btn-xs" type="button" title="Permohonan Diluluskan oleh : ' . $row->ts_validatename . ' Pada :' . date('d-m-Y g:i:s a',strtotime($row->ts_validate)) . '" data-placement="bottom" data-toggle="tooltip" data-original-title="Permohonan Lulus"><span class="glyphicon glyphicon-ok-sign"></span></button>';
+											echo '<button class="btn btn-success btn-xs" type="button" title="Permohonan Diluluskan oleh : ' . $row->ts_validatename . ' Pada :' . date('d-m-Y h:i a',strtotime($row->ts_validate)) . '" data-placement="bottom" data-toggle="tooltip" data-original-title="Permohonan Lulus"><span class="glyphicon glyphicon-ok-sign"></span></button>';
 											if ($row->ts_date){
-												echo '<br/><button class="btn btn-primary btn-xs" type="button" title="Pengesahan Pulang Oleh : ' . $row->ts_pengesah . ' Pada :' . date("d-m-Y g:i a", strtotime($row->ts_date)) . '" data-placement="bottom" data-toggle="tooltip" data-original-title="Permohonan Lulus"><span class="glyphicon glyphicon-thumbs-up"></span></button>';
+												echo '<br/><button class="btn btn-primary btn-xs" type="button" title="Pengesahan Pulang Oleh : ' . $row->ts_pengesah . ' Pada :' . date("d-m-Y h   h:i a", strtotime($row->ts_date)) . '" data-placement="bottom" data-toggle="tooltip" data-original-title="Permohonan Lulus"><span class="glyphicon glyphicon-thumbs-up"></span></button>';
 											}
 											else
 											{
