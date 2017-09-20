@@ -181,7 +181,7 @@ class MJustifikasi extends CI_Model {
 				AND YEAR(rpt_tarikh) = ?
 				ORDER BY rpt_tarikh";
 
-		$rst = $this->db->query($sql,[$bulan,$tahun]);
+		$rst = $this->db->query($sql,array($bulan,$tahun));
 		return $rst;
 	}
 
