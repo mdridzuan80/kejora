@@ -28,6 +28,8 @@ class Notifikasi
 	{
 		$this->CI->load->library('mailer');
 
+        $this->reset($this->CI->mailer);
+
 		if(is_array($rcpt_to))
 		{
 			foreach($rcpt_to as $rcpt)
@@ -97,5 +99,17 @@ class Notifikasi
 
        curl_close($post);
        return $result;
+    }
+
+    private function reset($mail)
+    {
+        $mail->clearQueuedAddresses();
+        $mail->clearAddresses();
+        $mail->clearCCs();
+        $mail->clearBCCs();
+        $mail->clearReplyTos();
+        $mail->clearAllRecipients();
+        $mail->clearAttachments();
+        $mail->clearCustomHeaders();
     }
 }
