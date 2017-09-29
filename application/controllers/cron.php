@@ -2,7 +2,6 @@
 /*
 	Pengaturcara: Md Ridzuan bin Mohammad Latiah
 	create: 18-Ogos-2011
-
 */
 class Cron extends CI_Controller {
 	public function __construct()
@@ -128,18 +127,18 @@ class Cron extends CI_Controller {
 				foreach($departments->result() as $department)
 				{
 					$data['department'] = $department->DEPTNAME;
-
 					$data['tarikh'] = date('Y-m-d');
 					$data['bulan'] = $this->config->item('pcrs_bulan');
 					$data['hari'] = $this->config->item('pcrs_hari');
 					$data['kakitangan'] = $this->mlaporan->get_staff_kehadiran_harian($department->DEPTID, date('d'), date('m'), date('Y'));
-					$email_title = '[eMASA] Laporan Kehadiran Harian ' . date('d/m/Y');
+					$email_title = '[PCRS] Laporan Kehadiran Harian ' . date('d/m/Y');
 					$report = $this->load->view('laporan/v_emel_laporan_harian', $data, TRUE);
 					$rcpt = $this->mlaporan->get_rcpt_laporan_harian($department->DEPTID);
 
 					foreach($rcpt->result() as $row)
 					{
-						pcrs_send_email($row->street, $email_title, $report);
+						$this->load->library("notifikasi");
+						$this->notifikasi->sendEmail($row->Email, $email_title, $report);
 					}
 				}
 			}
@@ -150,13 +149,14 @@ class Cron extends CI_Controller {
 				$data['bulan'] = $this->config->item('pcrs_bulan');
 				$data['hari'] = $this->config->item('pcrs_hari');
 				$data['kakitangan'] = $this->mlaporan->get_staff_kehadiran_harian($dept_id, date('d'), date('m'), date('Y'));
-				$email_title = '[eMASA] Laporan Kehadiran Harian ' . date('d/m/Y');
+				$email_title = '[PCRS] Laporan Kehadiran Harian ' . date('d/m/Y');
 				$report = $this->load->view('laporan/v_emel_laporan_harian', $data, TRUE);
 				$rcpt = $this->mlaporan->get_rcpt_laporan_harian($dept_id);
 
 				foreach($rcpt->result() as $row)
 				{
-					pcrs_send_email($row->street, $email_title, $report);
+						$this->load->library("notifikasi");
+						$this->notifikasi->sendEmail($row->Email, $email_title, $report);
 				}
 			}
 		}
@@ -211,7 +211,8 @@ class Cron extends CI_Controller {
 			$rcpt = $this->mlaporan->get_rcpt_laporan_harian($dept_id);
 			foreach($rcpt->result() as $row)
 			{
-				pcrs_send_email($row->street, $email_title, $report);
+				$this->load->library("notifikasi");
+				$this->notifikasi->sendEmail($row->Email, $email_title, $report);
 			}
 		}
 	}
@@ -239,9 +240,8 @@ class Cron extends CI_Controller {
 				$rcpt = $this->mlaporan->get_rcpt_laporan_harian($department->DEPTID);
 				foreach($rcpt->result() as $row)
 				{
-					pcrs_send_email($row->EMAIL, $email_title, $report);
-					//pcrs_send_email('mdridzuan@melaka.gov.my', $email_title, $report);
-				}
+					$this->load->library("notifikasi");
+					$this->notifikasi->sendEmail($row->Email, $email_title, $report);				}
 			}
 		}
 	}
