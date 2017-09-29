@@ -17,24 +17,35 @@ $(document).ready(function() {
 
 	$('#cmdRptBahagian').combotree({
     	onChange:function(newValue,oldValue){
-				var bahagianID=$('#cmdRptBahagian').combotree('getValue');
-				var segmen = $('#segmen').val();
-				if ( bahagianID != undefined ) {
-					if(chkArkib.is(':checked')) {
-						$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_arkib",{"id":newValue, "segmen":segmen});
-					} else {
-						$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_2",{"id":bahagianID, "segmen":segmen});
-					}
-				}
+			var bahagianID=$('#cmdRptBahagian').combotree('getValue');
+			var segmen = $('#segmen').val();
 
-				if ( $("#comRptKakitanganLayak").length ) {
-					var bulan="";
-					var tahun="";
-					bulan = $("#txtBulan").val();
-					tahun = $("#txtTahun").val();
-					$("#comRptKakitanganLayak").load(base_url+"kakitangan/layak_ts",{"id":bahagianID, "bulan":bulan, "tahun":tahun});
+			if ( bahagianID != undefined ) {
+				if(chkArkib.is(':checked')) {
+					$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_arkib",{"id":newValue, "segmen":segmen});
+				} else {
+					$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_2",{"id":bahagianID, "segmen":segmen});
 				}
+			}
+
+			if ( $("#comRptKakitanganLayak").length ) {
+				var bulan="";
+				var tahun="";
+
+				bulan = $("#txtBulan").val();
+				tahun = $("#txtTahun").val();
+				
+				$("#comRptKakitanganLayak").load(base_url+"kakitangan/layak_ts",{"id":bahagianID, "bulan":bulan, "tahun":tahun});
+			}
     	}
+	});
+
+	$('#cmdBahagianLulusJustifikasi').combotree({
+		onChange: function(newValue,oldValue) {
+			var bahagianID = newValue;
+
+			$("#comRptKakitangan").load(base_url+"kakitangan/bahagian_user_2",{id: bahagianID});
+		}
 	});
 
 	$("#cmdRptArkibBahagian").change(function(){

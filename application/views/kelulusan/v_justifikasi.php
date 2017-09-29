@@ -24,13 +24,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Bahagian / Unit</label>
+                        <div class="col-sm-4">
+                            <?php echo form_dropdown('deptid', array() ,0, "id=\"cmdBahagianLulusJustifikasi\" class=\"form-control input-sm easyui-combotree\" data-options=\"url:'" . base_url() . "welcome/department'\" style=\"width:100%;\"");?>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Nama</label>
                         <div class="col-sm-4">
                           <select id="comRptKakitangan" name="comRptKakitangan" class="form-control input-sm">
                             <option value="0">[semua]</option>
-                            <?php foreach($sen_pyd as $pyd) : ?>
-                                <option value="<?=$pyd->USERID?>"><?=$pyd->NAME?></option>
-                            <?php endforeach; ?>
                           </select>
                         </div>
                     </div>
