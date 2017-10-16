@@ -78,14 +78,15 @@
                 <?php if($row->justifikasi_alasan_2){?>
                 <div class="alert alert-warning" style="text-align:center">
                   	<b>Permohonan Punch-Out :</b> <?php echo $row->justikasi_masa ?>
-                      <p>
-                      	<?php echo $row->justifikasi_alasan_2 ?>
-                      </p>
-                  </div>
-                  <?php } ?>
+                    <p>
+                    <?php echo $row->justifikasi_alasan_2 ?>
+                    </p>
+                </div>
+                <?php } ?>
                 <?php } ?>
 
                 <?php if($row->justifikasi_status == 'L'){?>
+                <?php if($row->justifikasi_alasan){?>
             	<div class="alert alert-success" style="text-align:center">
                 	<b>Lulus Punch-In :</b> <?php echo $row->justikasi_masa ?>
                     <p>
@@ -93,28 +94,42 @@
                     </p>
                     <div style="font-size:10px; border-top:solid 1px #000;">Pelulus : <?php echo $row->justifikasi_verifikasi ?> <?php echo $row->justifikasi_tkh_verifikasi ?></div>
                 </div>
+                <?php } ?>
                 <?php if($row->justifikasi_alasan_2){?>
                 <div class="alert alert-success" style="text-align:center">
-                  	<b>Lulus Punch-Out :</b> <?php echo $row->justikasi_masa ?>
-                      <p>
-                      	<?php echo $row->justifikasi_alasan_2 ?>
-                      </p>
-                  </div>
-                  <?php } ?>
+                <b>Lulus Punch-Out :</b> <?php echo $row->justikasi_masa ?>
+                    <p>
+                    <?php echo $row->justifikasi_alasan_2 ?>
+                    </p>
+                </div>
+                <?php } ?>
                 <?php } ?>
 
                 <?php if($row->justifikasi_status == 'T'){?>
+                <?php if($row->justifikasi_alasan){?>
             	<div class="alert alert-danger" style="text-align:center">
-                	<b>Tolak :</b> <?php echo $row->justikasi_masa ?>
+                	<b>Tolak Punch-In :</b> <?php echo $row->justikasi_masa ?>
                     <p>
                     	<?php echo $row->justifikasi_alasan ?>
                     </p>
                 </div>
                 <?php } ?>
+                <?php if($row->justifikasi_alasan_2){?>
+                <div class="alert alert-success" style="text-align:center">
+                  	<b>Tolak Punch-Out :</b> <?php echo $row->justikasi_masa ?>
+                    <p>
+                        <?php echo $row->justifikasi_alasan_2 ?>
+                    </p>
+                </div>
+                <?php } ?>
+                <?php } ?>
             </td>
-            <td>
+            <td width="1px">
             	<?php if(!$row->justifikasi_status && strtotime(date('Y-m-d')) < strtotime("+" . pcrs_get_param('P_JUSTIFIKASI') . " day", strtotime("+1 month",strtotime($year . "-" . $month . "-01")))){?>
                 <a class="btn btn-primary btn-xs" data-target="#myModal" data-toggle="modal" href="<?php echo base_url()?>mohon/justifikasi_mohon/<?php echo $row->rpt_tarikh?>">Mohon</a>
+                <?php } ?>
+                <?php if($row->justifikasi_status == 'M'){?>
+                <button class="btn btn-danger btn-xs cmdHapusjustifikasi" data-justifikasi_id="<?= $row->justifikasi_id ?>" title="Menghapus permohonan justifikasi ini">Hapus</button>
                 <?php } ?>
             </td>
         </tr>

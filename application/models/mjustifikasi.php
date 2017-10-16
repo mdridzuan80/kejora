@@ -209,7 +209,12 @@ class MJustifikasi extends CI_Model {
 
 		$rst = $this->db->query($sql);
 		return $rst;
+	}
 
+	public function hapus($id)
+	{
+		$sql = "DELETE FROM pcrs.att_justifikasi_kehadiran WHERE justifikasi_id = ?";
+		return $this->db->query($sql,array($id));
 	}
 }
 

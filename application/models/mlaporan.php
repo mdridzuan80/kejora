@@ -481,6 +481,7 @@ class MLaporan extends CI_Model {
 				convert(varchar, rpt_check_out, 120) AS rpt_check_out,
 				convert(varchar, pcrs.att_justifikasi_kehadiran.justikasi_masa, 120) AS justikasi_masa,
 				convert(varchar, pcrs.att_justifikasi_kehadiran.justifikasi_tkh_verifikasi, 120) AS justifikasi_tkh_verifikasi,
+				pcrs.att_justifikasi_kehadiran.justifikasi_id,
 				pcrs.att_justifikasi_kehadiran.justifikasi_alasan,
 				pcrs.att_justifikasi_kehadiran.justifikasi_alasan_2,
 				pcrs.att_justifikasi_kehadiran.justifikasi_status,

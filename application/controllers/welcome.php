@@ -120,6 +120,16 @@ class Welcome extends MY_Controller {
 	{
 		$this->load->view('tpl/v_about');
 	}
+
+	public function hapus_justifikasi()
+	{
+		$this->load->model('mjustifikasi');
+		
+		if(!$this->mjustifikasi->hapus($this->input->post('justifikasi_id')))
+		{
+			return $this->output->set_status_header(404, 'Operasi hapus justifikasi ini tidak berjaya!');
+		}
+	}
 }
 
 /* End of file welcome.php */
