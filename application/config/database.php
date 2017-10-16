@@ -48,7 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '192.168.80.12';
+$db['default']['hostname'] = '192.168.1.215';
 $db['default']['username'] = 'pcrs';
 $db['default']['password'] = 'pcrs1029#';
 $db['default']['database'] = 'pcrsDB';
