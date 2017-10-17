@@ -44,10 +44,9 @@ class Welcome extends MY_Controller {
 
 		$data['years'] = $this->mlaporan->getTahunFromFinalAtt();
 		$data['sen_lewat_hari'] = $this->muserlewat->get_hari_lewat(date('Y-m-d'));
-		//dd($this->db->last_query());
 		$data['bil_lewat'] = $this->muserlewat->jumlah_lewat($this->session->userdata('uid'), date('m'), date('Y'));
 		$data['bil_kelulusan_justifikasi'] = $this->mjustifikasi->alert_bil_justifikasi($this->session->userdata("nokp"), date('Y'), date('m'));
-		$data['bil_Kelulusan_timeslip'] = $this->mtimeslip->getPermohonanKelulusan($this->session->userdata('dept'), $this->session->userdata('nokp'));
+		$data['bil_Kelulusan_timeslip'] = $this->mtimeslip->getPermohonanKelulusan(($this->session->userdata('dept')) ? $this->session->userdata('dept') : 0, $this->session->userdata('nokp'));
 		$tpl['js_plugin'] = array('morris', 'table', 'popup', 'timepicker');
 		$tpl['js_plugin_xtra'] = array($this->load->view('dashboard/v_chart', '', TRUE), $this->load->view('kakitangan/v_js_plugin_xtra', '', TRUE), $this->load->view('dashboard/v_js_panel', '', TRUE));
 		$tpl['main_content'] = $this->load->view('dashboard/v_default', $data, TRUE);
