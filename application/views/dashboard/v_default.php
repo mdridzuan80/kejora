@@ -12,6 +12,20 @@
         &nbsp;<span ><strong>PERINGATAN!</strong> Anda telah lewat sebanyak <?php echo $bil_lewat->num_rows(); ?> kali pada bulan ini</span>
       </div>
       <?php } ?>
+
+      <?php if($bil_kelulusan_justifikasi->num_rows() >= 2) {?>
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        &nbsp;<span><strong>MAKLUMAN!</strong> Anda mempunyai <?php echo $bil_kelulusan_justifikasi->num_rows(); ?> <a href="<?= base_url('kelulusan/justifikasi') ?>">permohonan kelulusan justifikasi</a></span>
+      </div>
+      <?php } ?>
+
+       <?php if($bil_Kelulusan_timeslip->num_rows() >= 2) {?>
+      <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        &nbsp;<span><strong>MAKLUMAN!</strong> Anda mempunyai <?php echo $bil_Kelulusan_timeslip->num_rows(); ?> <a href="<?= base_url('kelulusan/timeslip') ?>">permohonan kelulusan keluar pejabat</a></span>
+      </div>
+      <?php } ?>
     </div>
   </div>
     <div class="row">

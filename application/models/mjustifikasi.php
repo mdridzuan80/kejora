@@ -185,6 +185,28 @@ class MJustifikasi extends CI_Model {
 		return $rst;
 	}
 
+	public function alert_bil_justifikasi($nokp_pelulus, $tahun, $bulan)
+	{
+		$sql = "SELECT dbo.USERINFO.NAME, dbo.att_final_attendance.rpt_id, convert(varchar(10), rpt_tarikh, 120) AS rpt_tarikh,
+		convert(varchar, rpt_check_in, 120) AS rpt_check_in, convert(varchar, rpt_check_out, 120) AS rpt_check_out,
+		pcrs.att_justifikasi_kehadiran.justifikasi_alasan, pcrs.att_justifikasi_kehadiran.justifikasi_alasan_2,
+		pcrs.att_justifikasi_kehadiran.justikasi_masa, pcrs.att_justifikasi_kehadiran.justifikasi_status,
+		pcrs.att_justifikasi_kehadiran.justifikasi_user_id
+		FROM dbo.att_final_attendance LEFT JOIN pcrs.att_justifikasi_kehadiran ON convert(varchar(10), dbo.att_final_attendance.rpt_tarikh, 120)= convert(varchar(10),pcrs.att_justifikasi_kehadiran.justifikasi_tkh_terlibat, 120)
+		AND dbo.att_final_attendance.rpt_userid = pcrs.att_justifikasi_kehadiran.justifikasi_user_id INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = dbo.att_final_attendance.rpt_userid
+		WHERE 1 = 1
+		AND MONTH(dbo.att_final_attendance.rpt_tarikh) = ?
+		AND YEAR(dbo.att_final_attendance.rpt_tarikh) = ?
+		AND rpt_flag = 'TS'
+		AND pcrs.att_justifikasi_kehadiran.justifikasi_status = 'M'";
+
+		if( $this->session->userdata('role')!=1 ) {
+			$sql .= " AND dbo.USERINFO.OPHONE = '" . $nokp_pelulus . "'";
+		}
+
+		return $this->db->query($sql,array($bulan, $tahun));
+	}
+
 	public function get_maklumat_permohonan($user_id, $tarikh)
 	{
 		$sql = "SELECT
