@@ -44,6 +44,7 @@ class Welcome extends MY_Controller {
 
 		$data['years'] = $this->mlaporan->getTahunFromFinalAtt();
 		$data['sen_lewat_hari'] = $this->muserlewat->get_hari_lewat(date('Y-m-d'));
+		//dd($this->db->last_query());
 		$data['bil_lewat'] = $this->muserlewat->jumlah_lewat($this->session->userdata('uid'), date('m'), date('Y'));
 		$data['bil_kelulusan_justifikasi'] = $this->mjustifikasi->alert_bil_justifikasi($this->session->userdata("nokp"), date('Y'), date('m'));
 		$data['bil_Kelulusan_timeslip'] = $this->mtimeslip->getPermohonanKelulusan($this->session->userdata('dept'), $this->session->userdata('nokp'));

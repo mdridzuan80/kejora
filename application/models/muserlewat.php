@@ -88,7 +88,7 @@ class Muserlewat extends CI_Model {
 
 	public function get_hari_lewat($tarikh)
 	{
-        $sql = "SELECT dbo.view_LATE.NAME, dbo.view_LATE.DEPTNAME, dbo.view_LATE.TITLE, dbo.view_LATE.CHECKTIME
+        $sql = "SELECT *
 			FROM dbo.view_LATE
 			WHERE 1 = 1
 			AND convert(varchar(10),dbo.view_LATE.CHECKTIME,120) = ?" ;

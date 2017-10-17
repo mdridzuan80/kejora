@@ -187,6 +187,7 @@
                                             <th>#</th>
                                             <th>Nama</th>
                                             <th>Bahagian / Unit</th>
+                                            <th>Check-In</th>
                                             <th>Bilangan Lewat</th>
                                             <th>Warna Kad</th>
                                         </tr>
@@ -220,7 +221,8 @@
                                             <td><?php echo $b++?></td>
                                             <td><?php echo strtoupper($row->NAME)?></td>
                                             <td><?php echo $row->DEPTNAME?></td>
-                                            <td><?php echo $row->lewat?></td>
+                                            <td><?php echo $row->CHECKTIME?></td>
+                                            <td><?php echo pcrs_get_stat_lewat($row->USERID, $row->MONTH, $row->YEAR)->num_rows()?></td>
                                             <td style="background-color: <?php echo $style?>">
                                               &nbsp;
                                             </td>
