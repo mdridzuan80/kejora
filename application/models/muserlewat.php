@@ -93,6 +93,6 @@ class Muserlewat extends CI_Model {
 			WHERE 1 = 1
 			AND convert(varchar(10),dbo.view_LATE.CHECKTIME,120) = ?" ;
 
-		return $this->db->query($sql,[$tarikh]);
+		return $this->db->query($sql,array($tarikh));
 	}
 }
