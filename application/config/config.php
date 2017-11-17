@@ -395,7 +395,7 @@ $config['todo_log_ext'] = '.log';
 */
 $config['ad_accountSuffix'] = "@kejora";
 $config['ad_baseDN'] = "DC=KEJORA,DC=GOV,DC=MY";
-$config['ad_host'] = array("192.168.1.204","192.168.1.200");
+$config['ad_host'] = array("192.168.1.204");
 $config['ad_adminUsername'] = "pcrs";
 $config['ad_adminPassword'] = "Malay\$ia";
 
