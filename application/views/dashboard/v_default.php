@@ -1,11 +1,12 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
+        <?php if(pcrs_get_param('P_JUSTIFIKASI')) : ?>
       <div class="alert alert-warning alert-dismissible" role="alert" style="margin-top:20px">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         &nbsp;<span class="blink"><strong>MAKLUMAN!</strong> Permohonan justifikasi perlu diisi <b>SEBELUM atau PADA <?php echo pcrs_get_param('P_JUSTIFIKASI')?>hb</b> pada bulan berikutnya</span>
       </div>
-
+        <?php endif ?>
       <?php if($bil_lewat->num_rows() >= 2) {?>
       <div class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

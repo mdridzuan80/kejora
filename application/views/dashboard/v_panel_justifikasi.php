@@ -125,9 +125,15 @@
                 <?php } ?>
             </td>
             <td width="1px">
-            	<?php if(!$row->justifikasi_status && strtotime(date('Y-m-d')) < strtotime("+" . pcrs_get_param('P_JUSTIFIKASI') . " day", strtotime("+1 month",strtotime($year . "-" . $month . "-01")))){?>
-                <a class="btn btn-primary btn-xs" data-target="#myModal" data-toggle="modal" href="<?php echo base_url()?>mohon/justifikasi_mohon/<?php echo $row->rpt_tarikh?>">Mohon</a>
-                <?php } ?>
+                <?php if(pcrs_get_param('P_JUSTIFIKASI')) : ?>
+                    <?php if(!$row->justifikasi_status && strtotime(date('Y-m-d')) < strtotime("+" . pcrs_get_param('P_JUSTIFIKASI') . " day", strtotime("+1 month",strtotime($year . "-" . $month . "-01")))){?>
+                    <a class="btn btn-primary btn-xs" data-target="#myModal" data-toggle="modal" href="<?php echo base_url()?>mohon/justifikasi_mohon/<?php echo $row->rpt_tarikh?>">Mohon</a>
+                    <?php } ?>
+                <?php else : ?>
+                    <?php if(!$row->justifikasi_status) : ?>
+                    <a class="btn btn-primary btn-xs" data-target="#myModal" data-toggle="modal" href="<?php echo base_url()?>mohon/justifikasi_mohon/<?php echo $row->rpt_tarikh?>">Mohon</a>
+                    <?php endif ?>
+                <?php endif ?>
                 <?php if($row->justifikasi_status == 'M'){?>
                 <button class="btn btn-danger btn-xs cmdHapusjustifikasi" data-justifikasi_id="<?= $row->justifikasi_id ?>" title="Menghapus permohonan justifikasi ini">Hapus</button>
                 <?php } ?>
