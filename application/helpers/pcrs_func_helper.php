@@ -590,5 +590,38 @@ if( !function_exists('pcrs_validate_date'))
 	{
 		die(var_dump($var));
 	}
-}
+
+	function relatedJabatan(array $elements, $parentId = 1)
+	{
+		$branch = array();
+
+		foreach ($elements as $element) {
+			if ($element['SUPDEPTID'] == $parentId) {
+				$branch[] = $element['DEPTID'];
+				$c = relatedJabatan($elements, $element['DEPTID']);
+				if($c)
+				{
+					$branch[] = $c;
+				}
+			}
+		}
+		return $branch;
+	}
+
+	function flattenArray($a)
+	{
+		$na = array();
+
+		foreach($a as $i)
+		{
+			if(is_array($i))
+			{
+				if($na) $na = array_merge($na,flattenarray($i));
+				else $na = flattenarray($i);
+			}
+			else $na[] = $i;
+		}
+		return $na;
+	}
+	}
 ?>

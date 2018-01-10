@@ -98,4 +98,11 @@ class MDepartment extends CI_Model {
 			return true;
 		}
 	}
+
+	public function getAllElements()
+	{
+		$sql = "SELECT dbo.DEPARTMENTS.DEPTID, dbo.DEPARTMENTS.SUPDEPTID
+			FROM dbo.DEPARTMENTS";
+		return $this->db->query($sql)->result_array();
+	}
 }
