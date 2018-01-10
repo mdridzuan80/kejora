@@ -73,7 +73,7 @@ class Kelulusan extends MY_Controller {
 
 	public function justifikasi()
 	{
-		if($this->input->server("REQUEST_METHOD")=="POST") {
+		if($this->input->server("REQUEST_METHOD") == "POST") {
 			if($this->input->post('status'))
 			{
 				$this->load->model('mjustifikasi');
