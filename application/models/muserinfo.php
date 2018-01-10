@@ -80,10 +80,10 @@
 		public function under_ppp($nokp)
 		{
 			$this->db->from("dbo.USERINFO");
-			if( $this->session->userdata('role')!=1 )
-				$this->db->where("OPHONE",$nokp);
-			$rst = $this->db->get();
-			return $rst->result();
+
+			if($this->session->userdata('role') != 1) $this->db->where("OPHONE",$nokp);
+
+			return $this->db->get()->result();
 		}
 
 		public function getByUnitID_PPP($id) {

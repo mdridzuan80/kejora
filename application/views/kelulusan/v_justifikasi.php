@@ -10,7 +10,6 @@
         <div class="row">
             <form id="frm-kelulusan-justifikasi" class="form-horizontal" role="form">
                 <div class="col-lg-12">
-                    <input type="hidden" name="deptid" value="1">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Bulan</label>
                         <div class="col-sm-4">
