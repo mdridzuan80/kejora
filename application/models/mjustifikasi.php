@@ -171,7 +171,7 @@ class MJustifikasi extends CI_Model {
 			$sql .= " AND dbo.USERINFO.OPHONE = '" . $this->session->userdata("nokp") . "'";
 		}
 
-		if( $user_id ) {
+		if( $user_id != -1 ) {
 			$sql .= " AND dbo.USERINFO.USERID = $user_id";
 		}
 
@@ -182,6 +182,7 @@ class MJustifikasi extends CI_Model {
 				ORDER BY rpt_tarikh";
 
 		$rst = $this->db->query($sql,array($bulan,$tahun));
+		
 		return $rst;
 	}
 
