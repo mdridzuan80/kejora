@@ -356,7 +356,7 @@ class Cron extends CI_Controller {
 		$this->load->library("notifikasi");
 		$subject = "Punctuality Cascading Reporting System";
 		$message = "Syed Munawir, 123456789012 lewat 00:02:44 saat pada 29/06/2014. Telah lewat 4 kali pada bulan Jun";
-		$this->notifikasi->sendEmail('mdridzuan@melaka.gov.my', $subject, $message, 'demo@melaka.gov.my');
+		$this->notifikasi->sendEmail('mdridzuan@melaka.gov.my', $subject, $message, 'pcrs@kejora.gov.my');
 	}
 
 	public function re_gen()

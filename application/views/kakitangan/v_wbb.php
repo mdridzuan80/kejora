@@ -63,9 +63,11 @@
                                         <li>WP 1 : 7:30Pg - 4.30Ptg</li>
                                         <li>WP 2 : 8:00Pg - 5.00Ptg</li>
                                         <li>WP 3 : 8:30Pg - 5.30Ptg</li>
-                                        <li>WP 4 : 7:30Pg - 4.00Ptg</li>
-                                        <li>WP 5 : 8:00Pg - 4.30Ptg</li>
-                                        <li>WP 6 : 8:30Pg - 5.00Ptg</li>
+                                        <li>WP 4 : 9:00Pg - 6.00Ptg</li>
+                                        <li>WP 5 : 7:30Pg - 4.00Ptg</li>
+                                        <li>WP 6 : 8:00Pg - 4.30Ptg</li>
+                                        <li>WP 7 : 8:30Pg - 5.00Ptg</li>
+                                        <li>WP 8 : 9:00Pg - 5.30Ptg</li>
                                     </ul>
                                 </div>
                             </div>
