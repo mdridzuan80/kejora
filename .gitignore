@@ -19,3 +19,4 @@ application/logs/*
 _notes/
 .DS_Store
 .DS_Store?
+.htaccess

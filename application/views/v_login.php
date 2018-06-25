@@ -71,7 +71,12 @@
       <script src="<?= base_url("assets/js/sb-admin.js") ?>"></script>
 
       <span class="style4">**Paparan terbaik adalah menggunakan pelayar <strong>Firefox Mozilla </strong></span><span class="style4"><br>
-    atau<strong> Google Chrome</strong> dengan resolusi melebihi 1024 x 768 pixel**</span>  </div>
+    atau<strong> Google Chrome</strong> dengan resolusi melebihi 1024 x 768 pixel**</span>
+    <br/>
+    <span class="style4">
+        ENV : <?= isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development' ?> 
+    </span>
+    </div>
 </body>
 
 </html>

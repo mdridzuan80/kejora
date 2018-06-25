@@ -69,9 +69,7 @@
                 </button>
               <a class="navbar-brand" href="<?php echo base_url() ?>"><!--<img src="assets/images/jata.png" width="60" height="40" border="0"> &nbsp;-->
               <span class="style2"> Punctuality Cascading Reporting System (PCRS)</span></a>
-              <!--<?php if(ENVIRONMENT != 'PRODUCTION') {?>
-              <span style="color:red">(<?php echo ENVIRONMENT ?>)</span>
-              <?php } ?>--></div>
+            </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
@@ -278,6 +276,11 @@
                 		<?php }?>
                     </ul>
                 </li>-->
+                <li>
+                    <?php if(ENVIRONMENT != 'PRODUCTION') {?>
+                        <span style="color:red">(<?php echo ENVIRONMENT ?>)</span>
+                    <?php } ?>
+                </li>
                 <li class="dropdown">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="<?php echo $this->session->userdata('userid') ?>">
