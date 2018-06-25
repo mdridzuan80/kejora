@@ -42,5 +42,6 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['status/timeslip/(:any)'] = 'kelulusan/timeslip';
+$route['welcome/(:num)/(:num)'] = "welcome";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

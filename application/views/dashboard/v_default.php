@@ -17,18 +17,28 @@
     </div>
   
     <div>
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#dashboard" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-            <li role="presentation"><a href="#kalendar" aria-controls="profile" role="tab" data-toggle="tab">Kalendar</a></li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="dashboard">
-                <div class="row">
+        <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Dashboard</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+
+                <div class="row">     
+                    <div class="col-lg-12">
+                       <div class="panel-heading">
+                            <span style="font-size:18px">Kalendar</span>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                <a data-target="#myModal" data-toggle="modal" class="btn btn-primary" href="<?php echo base_url()?>mohon/timeslip_mohon">
+                                    Mohon Justifikasi
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                        <?=$calendar ?>
+                        </div>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -303,12 +313,6 @@
                     </div>
                 </div>
                 <!-- /.row -->
-            </div>
-            <div role="tabpanel" class="tab-pane" id="kalendar">
-                <div>&nbsp;</div>
-                <?=$calendar ?>
-            </div>
-        </div>
     </div>
 </div>
 <script>

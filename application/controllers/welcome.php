@@ -9,28 +9,6 @@ class Welcome extends MY_Controller {
 		$this->load->model('mjustifikasi');
 		$this->load->model('mtimeslip');
 
-		$prefs = array(
-			'start_day' => 'monday',
-			'month_type' => 'long',
-			'day_type' => 'long',
-			'template' => '{table_open}<table class="calendar">{/table_open}
-    {week_day_cell}<th class="day_header">{week_day}</th>{/week_day_cell}
-    {cal_cell_content}<span class="day_listing">{day}</span>&nbsp;&bull; {content}&nbsp;{/cal_cell_content}
-    {cal_cell_content_today}<div class="today"><span class="day_listing">{day}</span>&bull; {content}</div>{/cal_cell_content_today}
-    {cal_cell_no_content}<span class="day_listing">{day}</span>&nbsp;{/cal_cell_no_content}
-    {cal_cell_no_content_today}<div class="today"><span class="day_listing">{day}</span></div>{/cal_cell_no_content_today}',
-		);
-		$this->load->library('calendar', $prefs);
-
-		$dataCal = array(
-			3 => 'http://example.com/news/article/2006/03/',
-			7 => 'http://example.com/news/article/2006/07/',
-			13 => 'http://example.com/news/article/2006/13/',
-			26 => 'http://example.com/news/article/2006/26/'
-		);
-
-		$data['calendar'] = $this->calendar->generate(null, null, $dataCal);
-
 		if(	$this->session->userdata('role')==1 )
 		{
 			$data['top_ten'] = $this->mlaporan->get_top_ten(date('m'), date('Y'),1);
@@ -53,6 +31,7 @@ class Welcome extends MY_Controller {
 		$data['bil_lewat'] = $this->muserlewat->jumlah_lewat($this->session->userdata('uid'), date('m'), date('Y'));
 		$data['bil_kelulusan_justifikasi'] = $this->mjustifikasi->alert_bil_justifikasi($this->session->userdata("nokp"), date('Y'), date('m'));
 		$data['bil_Kelulusan_timeslip'] = $this->mtimeslip->getPermohonanKelulusan(($this->session->userdata('dept')) ? $this->session->userdata('dept') : 0, $this->session->userdata('nokp'));
+		$data['calendar'] = $this->kalendar(($this->uri->segment(2)?$this->uri->segment(2):date("Y")), ($this->uri->segment(3)?$this->uri->segment(3):date("m")));
 		$tpl['js_plugin'] = array('morris', 'table', 'popup', 'timepicker');
 		$tpl['js_plugin_xtra'] = array($this->load->view('dashboard/v_chart', '', TRUE), $this->load->view('kakitangan/v_js_plugin_xtra', '', TRUE), $this->load->view('dashboard/v_js_panel', '', TRUE));
 		$tpl['main_content'] = $this->load->view('dashboard/v_default', $data, TRUE);
@@ -140,6 +119,41 @@ class Welcome extends MY_Controller {
 		{
 			return $this->output->set_status_header(404, 'Operasi hapus justifikasi ini tidak berjaya!');
 		}
+	}
+
+	private function kalendar($tahun, $bulan)
+	{
+		$prefs = array(
+			'start_day' => 'monday',
+			'month_type' => 'long',
+			'day_type' => 'long',
+			'show_next_prev'  => TRUE,
+            'next_prev_url'   => base_url('welcome'),
+			'template' => '{table_open}<table class="calendar">{/table_open}
+				 {heading_row_start}<tr class="navigation">{/heading_row_start}
+
+				{heading_previous_cell}<th><a class="btn btn-default" href="{previous_url}">&lt;&lt;</a></th>{/heading_previous_cell}
+				{heading_title_cell}<th colspan="{colspan}"><h1>{heading}</h1></th>{/heading_title_cell}
+				{heading_next_cell}<th><a class="btn btn-default" href="{next_url}">&gt;&gt;</a></th>{/heading_next_cell}
+
+				{heading_row_end}</tr>{/heading_row_end}
+
+    			{week_day_cell}<th class="day_header">{week_day}</th>{/week_day_cell}
+    			{cal_cell_content}<span class="day_listing">{day}</span>&nbsp;&bull; {content}&nbsp;{/cal_cell_content}
+    			{cal_cell_content_today}<div class="today"><span class="day_listing">{day}</span>&bull; {content}</div>{/cal_cell_content_today}
+    			{cal_cell_no_content}<span class="day_listing">{day}</span>&nbsp;{/cal_cell_no_content}
+    			{cal_cell_no_content_today}<div class="today"><span class="day_listing">{day}</span></div>{/cal_cell_no_content_today}',
+		);
+		$this->load->library('calendar', $prefs);
+
+		$dataCal = array(
+			3 => 'http://example.com/news/article/2006/03/',
+			7 => 'http://example.com/news/article/2006/07/',
+			13 => 'http://example.com/news/article/2006/13/',
+			26 => 'http://example.com/news/article/2006/26/'
+		);
+
+		return $this->calendar->generate($tahun, $bulan, $dataCal);
 	}
 }
 

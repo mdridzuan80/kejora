@@ -77,6 +77,19 @@ $(document).ready(function() {
 	  }
 	});
 
+	$("#comJenis").on("change", function(e) {
+		e.preventDefault();
+		var jenis = $(this).val();
+
+		if(jenis == 2) {
+			$("#txtFrom").parent().show();
+			$("#txtTo").parent().show();
+		} else {
+			$("#txtFrom").parent().hide();
+			$("#txtTo").parent().hide();
+		}
+	});
+
 	function dateRange(){
 		var dateFrom = new Date($('#from').val());
 		var dateTo = new Date($('#to').val());
@@ -101,12 +114,10 @@ $(document).ready(function() {
 		$('#rst-lpt-kehadiran').load(base_url+'laporan/jana_harian', {'deptid': deptid, 'staffid':staffid, 'mula':mula, 'akhir':akhir});
 	})
 
-	$('#btn-mohon').click(function(){
-
-		//validate
-		if(($("#txtTarikh").val().length > 0)&&($("#txtFrom").val().length > 0)&&($("#txtTo").val().length > 0)&&($("#txtPerihalPermohonan").val().length > 0)) {
+	$('#btn-mohon').click(function() {		
+		if($("#from").val().length > 0 && $("#txtPerihalPermohonan").val().length > 0) {
 			var str = $('#frm-param-timeslip').serialize();
-			console.log(str);
+			
 			$.ajax({
 				type: 'POST',
 				url: base_url+'mohon/timeslip_mohon',
@@ -150,6 +161,7 @@ $(document).ready(function() {
            hour: 17, minute: 30
        }
    });
+
    $('#txtTo').timepicker({
        showLeadingZero: false,
        onSelect: tpEndSelect,

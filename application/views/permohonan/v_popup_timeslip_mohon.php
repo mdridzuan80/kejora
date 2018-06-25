@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title" id="myModalLabel">Permohonan Keluar Pejabat</h4>
+    <h4 class="modal-title" id="myModalLabel">Permohonan Justifikasi Kehadiran</h4>
 </div>
 <div class="modal-body">
 	<div class="row">
@@ -9,20 +9,25 @@
                 <div class="form-group">
                     <label class="control-label">Jenis Permohonan</label>
                     <select id="comJenis" name="comJenis" class="form-control input-sm">
-                        <option value="1">Rasmi</option>
+                        <option value="1">Kerja Luar</option>
+                         <option value="3">Cuti</option>
                         <option value="2">Tidak Rasmi</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Tarikh</label>
-                    <input id="txtTarikh" name="txtTarikh" type="text" class="form-control input-sm" required >
+                    <label class="control-label">Tarikh Mula</label>
+                    <input id="from" name="txtTarikh" type="text" class="form-control input-sm" required >
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Masa Keluar</label>
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">Masa Mula</label>
                     <input id="txtFrom" name="txtFrom" type="text" class="form-control input-sm" required >
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Masa Balik</label>
+                <div class="form-group" >
+                    <label class="control-label">Tarikh Tamat</label>
+                    <input id="to" name="txtTarikh2" type="text" class="form-control input-sm" required >
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label class="control-label">Masa Tamat</label>
                     <input id="txtTo" name="txtTo" type="text" class="form-control input-sm" required >
                 </div>
                 <div class="form-group">
