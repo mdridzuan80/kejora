@@ -14,6 +14,7 @@
     <link href="<?php echo base_url() ?>assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>assets/css/ui-lightness/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
     <link href="<?php echo base_url() ?>assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo base_url() ?>assets/css/calendar.css" rel="stylesheet">
     <?php
     	if(isset($js_plugin)){
 			foreach($js_plugin as $js_plg){

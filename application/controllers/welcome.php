@@ -1,22 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Welcome extends MY_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
 	public function index()
 	{
 		$this->load->model('mlaporan');
@@ -24,6 +8,28 @@ class Welcome extends MY_Controller {
 		$this->load->model('muserlewat');
 		$this->load->model('mjustifikasi');
 		$this->load->model('mtimeslip');
+
+		$prefs = array(
+			'start_day' => 'monday',
+			'month_type' => 'long',
+			'day_type' => 'long',
+			'template' => '{table_open}<table class="calendar">{/table_open}
+    {week_day_cell}<th class="day_header">{week_day}</th>{/week_day_cell}
+    {cal_cell_content}<span class="day_listing">{day}</span>&nbsp;&bull; {content}&nbsp;{/cal_cell_content}
+    {cal_cell_content_today}<div class="today"><span class="day_listing">{day}</span>&bull; {content}</div>{/cal_cell_content_today}
+    {cal_cell_no_content}<span class="day_listing">{day}</span>&nbsp;{/cal_cell_no_content}
+    {cal_cell_no_content_today}<div class="today"><span class="day_listing">{day}</span></div>{/cal_cell_no_content_today}',
+		);
+		$this->load->library('calendar', $prefs);
+
+		$dataCal = array(
+			3 => 'http://example.com/news/article/2006/03/',
+			7 => 'http://example.com/news/article/2006/07/',
+			13 => 'http://example.com/news/article/2006/13/',
+			26 => 'http://example.com/news/article/2006/26/'
+		);
+
+		$data['calendar'] = $this->calendar->generate(null, null, $dataCal);
 
 		if(	$this->session->userdata('role')==1 )
 		{
