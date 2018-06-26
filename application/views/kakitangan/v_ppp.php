@@ -1,6 +1,6 @@
 <div style="background-color:#FFF; max-width:600px; margin: auto; padding: 20px; position:relative;">
     <h1 class="page-header" style="color:#F00;">Pegawai Penilai</h1>
-    <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5){?>
+    <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==5 || $this->session->userdata('role')==3){?>
     <form id="frmPPP" role="form">
         <div class="form-group">
             <label>Bahagian/Unit</label>

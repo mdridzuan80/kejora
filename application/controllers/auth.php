@@ -92,6 +92,8 @@ class Auth extends CI_Controller {
 								$this->session->set_userdata('ppp', $this->userinfo->statusPPP($nokp));
 								$this->session->set_userdata('nokp', $nokp);
 								$this->session->set_userdata('parent', $parent_department);
+								$this->session->set_userdata('asPPP', $this->userinfo->asPPP($ad_user->userid)->num_rows());
+								$this->session->set_userdata('asPPK', $this->userinfo->asPPK($ad_user->userid)->num_rows());
 
 							}
 							else
@@ -148,6 +150,8 @@ class Auth extends CI_Controller {
 								$this->session->set_userdata('ppp', $this->userinfo->statusPPP($nokp));
 								$this->session->set_userdata('nokp', $nokp);
 								$this->session->set_userdata('parent', $parent_department);
+								$this->session->set_userdata('asPPP', $this->userinfo->asPPP($ad_user->userid)->num_rows());
+								$this->session->set_userdata('asPPK', $this->userinfo->asPPK($ad_user->userid)->num_rows());
 
 								$this->todolog->write_log('Time: ' . standard_date('DATE_RFC822', time()) . ' Address: ' . $_SERVER["REMOTE_ADDR"] . ' User: ' . $username . ' Msg: Successfully log-in');
 								redirect(base_url(), 'location');

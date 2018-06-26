@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Tarikh Mula</label>
-                    <input id="from" name="txtTarikh" type="text" class="form-control input-sm" required >
+                    <input id="from" name="from" type="text" class="form-control input-sm" required >
                 </div>
                 <div class="form-group" style="display:none;">
                     <label class="control-label">Masa Mula</label>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group" >
                     <label class="control-label">Tarikh Tamat</label>
-                    <input id="to" name="txtTarikh2" type="text" class="form-control input-sm" required >
+                    <input id="to" name="to" type="text" class="form-control input-sm" required >
                 </div>
                 <div class="form-group" style="display:none;">
                     <label class="control-label">Masa Tamat</label>

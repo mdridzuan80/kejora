@@ -18,6 +18,23 @@ $().ready(function() {
 		}
 	});
 
+	$('.btn-lulus-sokong').click(function(){
+		ans = confirm('Anda ingin meluluskan permohonan ini?');
+		if(ans){
+			mohonid=$(this).attr('data-mohonid');
+			$.ajax({
+				type: 'POST',
+				url: base_url+'kelulusan/justifikasi_verifikasi',
+				data: {'mohon_id':mohonid, 'flag':'S'},
+				success: function(d){
+					location.reload();
+				}
+			});
+		}else{
+			return false;
+		}
+	});
+
 	$('.btn-pengesahan').click(function(){
 		ans = confirm('Adakah anda ingin membuat pengesahan ini?');
 		if(ans){

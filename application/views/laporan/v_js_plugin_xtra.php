@@ -57,20 +57,20 @@ $(document).ready(function() {
 	});
 
 	$( "#from" ).datepicker({
-	  defaultDate: "+1w",
 	  changeMonth: true,
 	  numberOfMonths: 1,
 	  dateFormat: 'yy-mm-dd',
+	  minDate: moment().format('YYYY-MM-DD'),
 	  onClose: function( selectedDate ) {
 		$( "#to" ).datepicker( "option", "minDate", selectedDate );
 	  }
 	});
 
 	$( "#to" ).datepicker({
-	  defaultDate: "+1w",
 	  changeMonth: true,
 	  numberOfMonths: 1,
 	  dateFormat: 'yy-mm-dd',
+	  minDate: moment().format('YYYY-MM-DD'),
 	  onClose: function( selectedDate ) {
 			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 			dateRange();
@@ -94,7 +94,6 @@ $(document).ready(function() {
 		var dateFrom = new Date($('#from').val());
 		var dateTo = new Date($('#to').val());
 
-		console.log(dateFrom.getTime()/1000);
 		if((dateFrom.getTime()/1000) < (dateTo.getTime()/1000)){
 			$('#dateRange').hide();
 			$('#dateRangeOver').show();
@@ -114,23 +113,40 @@ $(document).ready(function() {
 		$('#rst-lpt-kehadiran').load(base_url+'laporan/jana_harian', {'deptid': deptid, 'staffid':staffid, 'mula':mula, 'akhir':akhir});
 	})
 
-	$('#btn-mohon').click(function() {		
-		if($("#from").val().length > 0 && $("#txtPerihalPermohonan").val().length > 0) {
-			var str = $('#frm-param-timeslip').serialize();
-			
+	$('#btn-mohon').click(function() {
+		var jenis = $('#comJenis').val();
+		var str = $('#frm-param-timeslip').serialize();
+
+		if(jenis != 2)
+		{
+			if($("#from").val().length > 0 && $("#txtPerihalPermohonan").val().length > 0) {
+				mohonJustifikasi(str);
+			} else {
+				alert("Semua medan perlu dipenuhkan");
+			}
+		}
+		else
+		{
+			if($("#from").val().length > 0 && $("#txtFrom").val().length > 0 && $("#to").val().length > 0 && $("#txtTo").val().length > 0 && $("#txtPerihalPermohonan").val().length > 0) {
+				mohonJustifikasi(str);
+			} else {
+				alert("Semua medan perlu dipenuhkan");
+			}
+		}
+
+		function mohonJustifikasi(strData) {
 			$.ajax({
 				type: 'POST',
-				url: base_url+'mohon/timeslip_mohon',
-				data: str,
+				url: base_url+'mohon/justifikasi_mohon',
+				data: strData,
 				success: function(data, textStatus, qXHR){
+					alert('Permohonan anda telah di hantar');
 					location.reload();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					alert(textStatus + ": " + errorThrown);
 				}
 			});
-		} else {
-			alert("Semua medan perlu dipenuhkan");
 		}
 	});
 

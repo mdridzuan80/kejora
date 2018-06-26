@@ -321,14 +321,19 @@
                         </li>
                         <?php if($this->session->userdata('role')==1 || $this->session->userdata('ppp')){?>
                         <li>
-                            <a href="#"><i class="glyphicon glyphicon-check"></i> Kelulusan<span class="fa arrow"></span></a>
+                            <a href="#"><i class="glyphicon glyphicon-check"></i> Justifikasi<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                <?php if($this->session->userdata('asPPP')){?>
                                 <li>
-                                    <a href="<?php echo base_url() ?>kelulusan/justifikasi">Justifikasi Kehadiran</a>
+                                    <!-- <a href="<?php echo base_url() ?>kelulusan/justifikasi">Sokong</a> -->
+                                    <a href="<?php echo base_url() ?>kelulusan/sen_justifikasi">Sokong</a>
                                 </li>
+                                <?php }?>
+                                <?php if($this->session->userdata('asPPK')){?>
                                 <li>
-                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Permohonan Keluar</a>
+                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Lulus</a>
                                 </li>
+                                <?php }?>
                             </ul>
                         </li>
                         <?php }?>
@@ -400,11 +405,9 @@
                             </ul>
                         </li>
                         <?php }?>
-                        <?php if($this->session->userdata('role')==1 || $this->session->userdata('role')==4 || $this->session->userdata('role')==5 || $this->session->userdata('role')==2){?>
                         <li>
                             <a href="<?php echo base_url() ?>kakitangan"><i class="fa fa-user fa-fw"></i> Maklumat Kakitangan</a>
                         </li>
-                        <?php }?>
                         <!--<li>
                             <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>-->
@@ -482,8 +485,8 @@
     <script src="<?php echo base_url() ?>assets/js/jquery.easyui.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <!--<script src="<?php //echo base_url() ?>assets/js/plugins/moment-locale/moment-locale.js"></script>-->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    
     <!-- Page-Level Plugin Scripts - Blank -->
     <?php
     	if(isset($js_plugin)){

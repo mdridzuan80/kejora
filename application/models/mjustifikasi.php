@@ -39,57 +39,33 @@ class MJustifikasi extends CI_Model {
 		$this->db->insert('pcrs.att_justifikasi_kehadiran', $fields);
 	}
 
-	public function get_permohonan_justifikasi($user_id, $bulan, $tahun)
+	public function mohon($fields)
 	{
-		$sql = "SELECT
-				dbo.USERINFO.NAME,
-				dbo.att_final_attendance.rpt_id,
-				convert(varchar(10), rpt_tarikh, 120) AS rpt_tarikh,
-				convert(varchar, rpt_check_in, 120) AS rpt_check_in,
-				convert(varchar, rpt_check_out, 120) AS rpt_check_out,
-				pcrs.att_justifikasi_kehadiran.justifikasi_alasan,
-				pcrs.att_justifikasi_kehadiran.justifikasi_alasan_2,
-				pcrs.att_justifikasi_kehadiran.justikasi_masa,
-				pcrs.att_justifikasi_kehadiran.justifikasi_status,
-				pcrs.att_justifikasi_kehadiran.justifikasi_user_id
-				FROM dbo.att_final_attendance
-				LEFT JOIN pcrs.att_justifikasi_kehadiran ON convert(varchar(10), dbo.att_final_attendance.rpt_tarikh, 120)= convert(varchar(10),pcrs.att_justifikasi_kehadiran.justifikasi_tkh_terlibat, 120) AND dbo.att_final_attendance.rpt_userid = pcrs.att_justifikasi_kehadiran.justifikasi_user_id
-				INNER JOIN dbo.USERINFO ON dbo.USERINFO.USERID = dbo.att_final_attendance.rpt_userid
-				where 1 = 1";
+		return $this->db->insert('pcrs.att_justifikasi', $fields);
+	}
 
-				if($this->session->userdata('ppp'))
-				{
-					if($user_id != -1)
-					{
-							$sql .= " AND USERINFO.USERID = " . $user_id;
-					}
-					else if($this->session->userdata('role') == 4)
-					{
-						$sql .= " AND USERINFO.OPHONE = '" . $this->session->userdata('nokp') . "'";
-					}
-				}
-				else
-				{
-					if($user_id != -1)
-					{
-							$sql .= " AND USERINFO.USERID = " . $user_id;
-					}
-					else
-					{
-						if($this->session->userdata('role') == 4)
-						{
-							$sql .= " AND USERINFO.USERID = " . $this->session->userdata('uid');
-						}
-					}
-				}
+	public function get_permohonan_justifikasi()
+	{
+		$sql = "select * from pcrs.view_permohonan_justifikasi
+			WHERE ppp_ssn = ?
+			AND j_status = 'M'";
 
-		$sql .= " and rpt_flag = 'TS'
-				and justifikasi_status = 'M'
-				and MONTH(rpt_tarikh) = $bulan
-				and YEAR(rpt_tarikh) = $tahun
-				order by rpt_tarikh";
-		$rst = $this->db->query($sql);
+		$rst = $this->db->query($sql, array($this->session->userdata('nokp')));
 		return $rst;
+	}
+
+	public function setVerifikasi($mohonid, $status)
+	{
+		$fields = array(
+			$status,
+			$this->session->userdata('userid'),
+			date('Y-m-d H:i:s'),
+			$mohonid,
+		);
+
+		$sql = "update pcrs.att_justifikasi set j_status = ?, j_sokong = ?, j_tkh_sokong = ? where j_id = ?";
+		$this->db->query($sql, $fields);
+		echo $this->db->last_query();
 	}
 
 	public function get_permohonan_justifikasi2($dept_id, $user_id, $bulan, $tahun)

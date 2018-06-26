@@ -25,12 +25,15 @@ class MDepartment extends CI_Model {
 	public function getUnitsPPP($deptid)
 	{
 		$this->db->where('SUPDEPTID', $deptid);
+		
 		if($this->session->userdata('role') != 1)
 		{
 			$this->db->where_in('DEPTID', $this->session->userdata('browse_dept')); 
 		}
+
 		$this->db->order_by('DEPARTMENTS.DEPTNAME');
 		$query = $this->db->get('dbo.DEPARTMENTS');
+
 		return $query;
 	}
 	

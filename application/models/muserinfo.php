@@ -28,7 +28,7 @@
 			if($filter['deptid'])
 				$this->db->where('DEFAULTDEPTID', $filter['deptid']);
 
-			if($this->session->userdata('role')==5)
+			if($this->session->userdata('role')==5 || $this->session->userdata('role')==3)
 				$this->db->where('DEFAULTDEPTID', $this->session->userdata('dept'));
 			if($this->session->userdata('role')==2)
 				$this->db->where_in('DEFAULTDEPTID', $this->session->userdata('browse_dept'));
@@ -581,6 +581,20 @@
 				WHERE 1=1
 				AND DEFAULTDEPTID <> 1";
 			$rst = $this->db->query($sql);
+			return $rst;
+		}
+
+		public function asPPP($userid)
+		{
+			$sql = "select * from dbo.view_pppk where ppp_userid = ?";
+			$rst = $this->db->query($sql, array($userid));
+			return $rst;
+		}
+
+		public function asPPK($userid)
+		{
+			$sql = "select * from dbo.view_pppk where ppk_userid = ?";
+			$rst = $this->db->query($sql, array($userid));
 			return $rst;
 		}
 	}

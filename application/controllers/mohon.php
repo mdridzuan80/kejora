@@ -1,22 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class Mohon extends MY_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
 	public function index()
 	{
 		$tpl['main_content'] = $this->load->view('dashboard/v_default', '', TRUE);
@@ -231,189 +214,63 @@ class Mohon extends MY_Controller {
 		$this->load->view('tpl/v_main', $tpl);
 	}
 
-	public function justifikasi_mohon($tkh_terlibat)
+	public function justifikasi_mohon()
 	{
-		if($this->input->post('hdd_rpt_id'))
+
+
+		$this->load->model('mjustifikasi','justifikasi');
+		$this->load->model('mpelulus','pelulus');
+		$this->load->model('muserinfo','userinfo');
+
+		$uid = $this->session->userdata('uid');
+
+		if($this->session->userdata('role') != 2)
 		{
-			$this->load->model('mjustifikasi');
+			$rst_pelulus = $this->userinfo->getKetuaBahagian($this->session->userdata('dept'));
+		}
+		else
+		{
+			$rst_pelulus = $this->userinfo->getPPP($this->session->userdata('uid'));
+		}
 
-			//jika checkbox(kursus).checked = true
-			if($this->input->post('kursus'))
+		if($rst_pelulus->num_rows())
+		{
+			$data['rst_info_pemohon'] = $this->userinfo->getUserInfo($uid);
+
+			if($data['rst_info_pemohon']->num_rows())
 			{
-				if($this->input->post('mula')==$this->input->post('akhir'))
+				$fields['j_userid'] = $uid;
+				$fields['j_jenis'] = $this->input->post('comJenis');
+				$fields['j_mula'] = date('Y-m-d H:i',strtotime($this->input->post('from') . ' ' . $this->input->post('txtFrom')));
+				$fields['j_tamat'] = date('Y-m-d H:i',strtotime($this->input->post('to') . ' ' . $this->input->post('txtTo')));
+				$fields['j_alasan'] = $this->input->post('txtPerihalPermohonan');
+
+				$info_pemohon = $data['rst_info_pemohon']->row();
+				$pemohon = $info_pemohon->NAME;
+				$data['name'] = $pemohon;
+				$data['jenis'] = $fields['j_jenis'];
+				$data['check_in'] = $fields['j_mula'];
+				$data['check_out'] = $fields['j_tamat'];
+				$data['alasan'] = $fields['ts_alasan'];
+				$data['hari'] = $this->config->item('pcrs_hari');
+				$title = '[PCRS] Memohon Kelulusan Permohonan Keluar oleh ' . $pemohon . ' pada ' . date('d-m-Y',strtotime($data['check_in']));
+				$message = $this->load->view('permohonan/v_emel_notify', $data, TRUE);
+
+				if($this->justifikasi->mohon($fields))
 				{
-					if($this->input->post('sama'))
-					{
-						if($this->input->post('txtCatatanPunchIn'))
-						{
-							$field['justifikasi_rpt_id'] = 0;
-							$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-							$field['justifikasi_alasan'] = (string) $this->input->post('txtCatatanPunchIn');
-							$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-							$this->load->model('mjustifikasi');
-							$this->mjustifikasi->simpan($field);
-
-							$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field, $this->input->post('akhir'));
-						}
-						else
-						{
-								echo '0';
-						}
-					}
-					else
-					{
-						if($this->input->post('txtCatatanPunchIn') && $this->input->post('txtCatatanPunchOut'))
-						{
-							$field['justifikasi_rpt_id'] = 0;
-							$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-							$field['justifikasi_alasan'] = (string) $this->input->post('txtCatatanPunchIn');
-							$field['justifikasi_alasan_2'] = (string) $this->input->post('txtCatatanPunchOut');
-							$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-							$this->load->model('mjustifikasi');
-							$this->mjustifikasi->simpan($field);
-
-							$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field, $this->input->post('akhir'));
-						}
-						else
-						{
-							echo '0';
-						}
-					}
+					$this->load->library("notifikasi");
+					//$this->notifikasi->sendEmail($rst_pelulus->row()->Email, $title, $message);
+					$this->output->set_status_header(200, 'Permohonan anda telah di hantar');
 				}
 				else
 				{
-					$semasa = strtotime($this->input->post('mula'));
-					if($this->input->post('txtCatatan'))
-					{
-						do
-						{
-							$field['justifikasi_rpt_id'] = 0;
-							$field['justifikasi_tkh_terlibat'] = date('Y-m-d',$semasa);
-							$field['justifikasi_alasan'] = (string) $this->input->post('txtCatatan');
-							$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-							$this->load->model('mjustifikasi');
-							$this->mjustifikasi->simpan($field);
-							$semasa = strtotime('+1 day',$semasa);
-						} while($semasa <= strtotime($this->input->post('akhir')));
-
-						$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field, $this->input->post('akhir'));
-					}
-					else
-					{
-						echo '0';
-					}
-				}
-			}
-			else //jika checkbox(kursus).checked = false
-			{
-				if($this->input->post('sama'))
-				{
-					if($this->input->post('txtCatatanPunchIn'))
-					{
-						$field['justifikasi_rpt_id'] = 0;
-						$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-						$field['justifikasi_alasan'] = (string) $this->input->post('txtCatatanPunchIn');
-						$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-						$this->load->model('mjustifikasi');
-						$this->mjustifikasi->simpan($field);
-
-						$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field);
-					}
-					else
-					{
-						echo '0';
-					}
-				}
-				else
-				{
-					if($this->input->post('txtCatatanPunchIn') || $this->input->post('txtCatatanPunchOut'))
-					{
-						if(isset($_POST['txtCatatanPunchIn']) && isset($_POST['txtCatatanPunchIn'])!='' && isset($_POST['txtCatatanPunchOut']) && $_POST['txtCatatanPunchOut']!='' )
-						{
-							$field['justifikasi_rpt_id'] = 0;
-							$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-							$field['justifikasi_alasan'] =  (string) $this->input->post('txtCatatanPunchIn');
-							$field['justifikasi_alasan_2'] = (string) $this->input->post('txtCatatanPunchOut');
-							$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-							$this->load->model('mjustifikasi');
-							$this->mjustifikasi->simpan($field);
-
-							$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field);
-						}
-						else
-						{
-							if($this->input->post('txtCatatanPunchIn') && $this->input->post('txtCatatanPunchIn')!='' && !isset($_POST['txtCatatanPunchOut']))
-							{
-								$field['justifikasi_rpt_id'] = 0;
-								$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-								$field['justifikasi_alasan'] =  (string) $this->input->post('txtCatatanPunchIn');
-								$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-								$this->load->model('mjustifikasi');
-								$this->mjustifikasi->simpan($field);
-
-								$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field);
-							}
-							else
-							{
-								if(isset($_POST['txtCatatanPunchOut']) && $this->input->post('txtCatatanPunchOut')!='')
-								{
-									$field['justifikasi_rpt_id'] = 0;
-									$field['justifikasi_tkh_terlibat'] = $tkh_terlibat;
-									$field['justifikasi_alasan_2'] =  (string) $this->input->post('txtCatatanPunchOut');
-									$field['justifikasi_user_id'] = $this->session->userdata('uid');
-
-									$this->load->model('mjustifikasi');
-									$this->mjustifikasi->simpan($field);
-
-									$this->_notifi_justifikasi($this->session->userdata('uid'), $tkh_terlibat, $field);
-								}
-								else
-								{
-									echo '0';
-								}
-							}
-						}
-					}
-					else
-					{
-						echo '0';
-					}
+					$this->output->set_status_header(400, 'Ralat! Permohonan tidak berjaya disimpan.');
 				}
 			}
 		}
 		else
 		{
-			$this->load->model('mfinalatt');
-
-			$shift = pcrs_wbb_starttime($this->session->userdata('uid'), $tkh_terlibat);
-
-			$data['rpt_id'] = $tkh_terlibat;
-			$data['js_plugin_xtra'] = array($this->load->view('permohonan/v_popup_jastifikasi_mohon_js', '', TRUE));
-			$data['punch_in'] = $this->mfinalatt->get_rekod_punch_inout('rpt_check_in',$tkh_terlibat);
-			$data['punch_out'] = $this->mfinalatt->get_rekod_punch_inout('rpt_check_out',$tkh_terlibat);
-			$data["lewat"] = 0;
-			$data["awal"] = 0;
-			if($data['punch_in'])
-			{
-				$dateString = date("Y-m-d", strtotime($tkh_terlibat)) . " " . $shift[0];
-
-				if(strtotime($data['punch_in']) > strtotime($dateString))
-				{
-					$data["lewat"] = 1;
-				}
-				$dateString = date("Y-m-d", strtotime($tkh_terlibat)) . " " . $shift[2];
-				if(strtotime($data['punch_out']) < strtotime($dateString))
-				{
-					$data["awal"] = 1;
-				}
-			}
-			$this->load->view('permohonan/v_popup_justifikasi_mohon', $data);
+			$this->output->set_status_header(400, 'Ralat! Sila pastikan bahagian pemohon memiliki pelulus.');
 		}
 	}
 

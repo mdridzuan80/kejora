@@ -138,6 +138,39 @@ class Kelulusan extends MY_Controller {
 			$this->load->view('tpl/v_main', $tpl);
 		}
 	}
+
+	public function sen_justifikasi()
+	{
+		$this->load->model('mjustifikasi', 'justifikasi');
+		$this->load->model('mpelulus', 'pelulus');
+
+		$dept_priv = pcrs_rst_to_array($this->pelulus->getDeptId(), 'pl_deptid');
+		$data['permohonan'] = $this->justifikasi->get_permohonan_justifikasi();
+		$data['js_plugin_xtra'] = array($this->load->view('extrajs/v_js_kelulusan', '', TRUE));
+		$tpl['main_content'] = $this->load->view('kelulusan/v_timeslip_default', $data, TRUE);
+		$this->load->view('tpl/v_main', $tpl);
+	}
+
+	public function sen_justifikasi_lulus()
+	{
+		$this->load->model('mjustifikasi', 'justifikasi');
+		$this->load->model('mpelulus', 'pelulus');
+
+		$dept_priv = pcrs_rst_to_array($this->pelulus->getDeptId(), 'pl_deptid');
+		$data['permohonan'] = $this->justifikasi->get_permohonan_justifikasi();
+		$data['js_plugin_xtra'] = array($this->load->view('extrajs/v_js_kelulusan', '', TRUE));
+		$tpl['main_content'] = $this->load->view('kelulusan/v_timeslip_default2', $data, TRUE);
+		$this->load->view('tpl/v_main', $tpl);
+	}
+
+	public function justifikasi_verifikasi()
+	{
+		$this->load->model('mjustifikasi', 'justifikasi');
+
+		$mohon_id = $this->input->post('mohon_id');
+		$flag = $this->input->post('flag');
+		$this->justifikasi->setVerifikasi($mohon_id, $flag);
+	}
 }
 
 /* End of file welcome.php */

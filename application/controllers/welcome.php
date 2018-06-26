@@ -77,11 +77,12 @@ class Welcome extends MY_Controller {
 		}
 		else
 		{
-			$id = $this->input->post('id') ? intval($this->input->post('id')) : $this->session->userdata('parent');
+			$id = $this->input->post('id') ? intval($this->input->post('id')) : $this->mdepartment->get_parent_dept($this->session->userdata('parent'));
 		}
 
 		$result = array();
 		$rst = $this->mdepartment->getUnitsPPP($id);
+		//var_dump($rst->result());
 		foreach($rst->result() as $row)
 		{
 			$node = array();
