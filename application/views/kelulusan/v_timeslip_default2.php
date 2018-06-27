@@ -1,14 +1,14 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Sokong Justifikasi</h1>
+            <h1 class="page-header">Kelulusan Justifikasi</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="glyphicon glyphicon-list"></i> Senarai Permohonan Menunggu Sokongan
+            <i class="glyphicon glyphicon-list"></i> Senarai Permohonan Menunggu Kelulusan
         </div>
         <div class="panel-body">
         	<div class="table-responsive">
@@ -23,6 +23,7 @@
                             <th>BAHAGIAN</th>
                             <th>WAKTU KELUAR</th>
                             <th>WAKTU MASUK</th>
+                             <th>JENIS</th>
                             <th>ALASAN</th>
                             <th colspan="3">TINDAKAN</th>
                     	</tr>
@@ -47,10 +48,11 @@
                                 <td><?php echo date("d-m-Y", strtotime($row->j_mula))?></td>
                                 <td><?php echo date("d-m-Y", strtotime($row->j_tamat))?></td>
                             <?php endif ?>
+                            <td><?php $jenis = $this->config->item('pcrs_jenis_justifikasi'); echo $jenis[$row->j_jenis] ?></td>
                             <td><?php echo $row->j_alasan?></td>
                             <td style="text-align:center;">
-                            	<button class="btn btn-success btn-xs btn-lulus-sokong" type="button" title="Menyokong Permohoanan" data-placement="bottom" data-toggle="tooltip" data-original-title="Meluluskan Permohonan" data-mohonid="<?php echo $row->j_id ?>"><span class="glyphicon glyphicon-ok-sign" ></span></button>
-                            	<button class="btn btn-danger btn-xs btn-tolak-sokong" type="button" title="Menolak Permohonan" data-placement="bottom" data-toggle="tooltip" data-original-title="Menolak Permohonan" data-mohonid="<?php echo $row->j_id ?>"><span class="glyphicon glyphicon-remove-sign"></span></button>
+                            	<button class="btn btn-success btn-xs btn-lulus-lulus" type="button" title="Menyokong Permohoanan" data-placement="bottom" data-toggle="tooltip" data-original-title="Meluluskan Permohonan" data-mohonid="<?php echo $row->j_id ?>"><span class="glyphicon glyphicon-ok-sign" ></span></button>
+                            	<button class="btn btn-danger btn-xs btn-tolak-lulus" type="button" title="Menolak Permohonan" data-placement="bottom" data-toggle="tooltip" data-original-title="Menolak Permohonan" data-mohonid="<?php echo $row->j_id ?>"><span class="glyphicon glyphicon-remove-sign"></span></button>
                             </td>
                     	</tr>
                         <?php }?>

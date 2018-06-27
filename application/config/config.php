@@ -411,5 +411,7 @@ $config['pcrs_hrmis_bu'] = "";
 $config['pcrs_hrmis_username'] = "";
 $config['pcrs_hrmis_password'] = "";
 
+$config['pcrs_jenis_justifikasi'] = array(1=>"Kerja Luar", 2=>"Tidak Rasmi", 3=>"Cuti", 4=>"Datang Lewat", 5=>"Pulang Awal");
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */

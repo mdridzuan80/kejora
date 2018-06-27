@@ -23,6 +23,7 @@
                             <th>BAHAGIAN</th>
                             <th>WAKTU KELUAR</th>
                             <th>WAKTU MASUK</th>
+                            <th>JENIS</th>
                             <th>ALASAN</th>
                             <th colspan="3">TINDAKAN</th>
                     	</tr>
@@ -47,6 +48,7 @@
                                 <td><?php echo date("d-m-Y", strtotime($row->j_mula))?></td>
                                 <td><?php echo date("d-m-Y", strtotime($row->j_tamat))?></td>
                             <?php endif ?>
+                            <td><?php $jenis = $this->config->item('pcrs_jenis_justifikasi'); echo $jenis[$row->j_jenis] ?></td>
                             <td><?php echo $row->j_alasan?></td>
                             <td style="text-align:center;">
                             	<button class="btn btn-success btn-xs btn-lulus-sokong" type="button" title="Menyokong Permohoanan" data-placement="bottom" data-toggle="tooltip" data-original-title="Meluluskan Permohonan" data-mohonid="<?php echo $row->j_id ?>"><span class="glyphicon glyphicon-ok-sign" ></span></button>

@@ -24,25 +24,6 @@
                     <!-- /.col-lg-12 -->
                 </div>
 
-                <div class="row">     
-                    <div class="col-lg-12">
-                       <div class="panel-heading">
-                            <span style="font-size:18px">Kalendar</span>
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                <a data-target="#myModal" data-toggle="modal" class="btn btn-primary" href="<?php echo base_url()?>mohon/timeslip_mohon">
-                                    Mohon Justifikasi
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                        <?=$calendar ?>
-                        </div>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-
                 <?php if ($this->session->userdata('role') == 1 || $this->session->userdata('ppp')) : ?>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
@@ -94,49 +75,23 @@
 
                 <div class="row">     
                     <div class="col-lg-12">
-                        <h4>Profil Individu</h4>
+                       <div class="panel-heading">
+                            <span style="font-size:18px">Kalendar</span>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                <a data-target="#myModal" data-toggle="modal" class="btn btn-primary" href="<?php echo base_url()?>mohon/timeslip_mohon">
+                                    Mohon Justifikasi
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                        <?=$calendar ?>
+                        </div>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Justifikasi Kehadiran Bagi Bulan :
-                                <div class="pull-right">
-                                    <form id="frmJustifikasi">
-                                        <select name="comBulan" class="comBulan">
-                                            <option value="1" <?php echo set_select('comBulan', '1', date('n') == 1) ?>>1</option>
-                                            <option value="2" <?php echo set_select('comBulan', '2', date('n') == 2) ?>>2</option>
-                                            <option value="3" <?php echo set_select('comBulan', '3', date('n') == 3) ?>>3</option>
-                                            <option value="4" <?php echo set_select('comBulan', '4', date('n') == 4) ?>>4</option>
-                                            <option value="5" <?php echo set_select('comBulan', '5', date('n') == 5) ?>>5</option>
-                                            <option value="6" <?php echo set_select('comBulan', '6', date('n') == 6) ?>>6</option>
-                                            <option value="7" <?php echo set_select('comBulan', '7', date('n') == 7) ?>>7</option>
-                                            <option value="8" <?php echo set_select('comBulan', '8', date('n') == 8) ?>>8</option>
-                                            <option value="9" <?php echo set_select('comBulan', '9', date('n') == 9) ?>>9</option>
-                                            <option value="10" <?php echo set_select('comBulan', '10', date('n') == 10) ?>>10</option>
-                                            <option value="11" <?php echo set_select('comBulan', '11', date('n') == 11) ?>>11</option>
-                                            <option value="12" <?php echo set_select('comBulan', '12', date('n') == 12) ?>>12</option>
-                                        </select>
-                                        <select name="comTahun" class="comTahun">
-                                            <?php foreach ($years as $year) : ?>
-                                            <option value="<?= $year->tahun ?>" <?php echo set_select('comTahun', $year->tahun, date('Y') == $year->tahun) ?>><?= $year->tahun ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                        <button type="button" class="btn btn-link btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div id="panelJustifikasi" class="panel-body">
-                                &nbsp;
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <hr />

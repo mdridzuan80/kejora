@@ -54,6 +54,16 @@ class MJustifikasi extends CI_Model {
 		return $rst;
 	}
 
+	public function get_permohonan_justifikasi_lulus()
+	{
+		$sql = "select * from pcrs.view_permohonan_justifikasi
+			WHERE ppk_ssn = ?
+			AND j_status = 'S'";
+
+		$rst = $this->db->query($sql, array($this->session->userdata('nokp')));
+		return $rst;
+	}
+
 	public function setVerifikasi($mohonid, $status)
 	{
 		$fields = array(
@@ -63,7 +73,10 @@ class MJustifikasi extends CI_Model {
 			$mohonid,
 		);
 
-		$sql = "update pcrs.att_justifikasi set j_status = ?, j_sokong = ?, j_tkh_sokong = ? where j_id = ?";
+		if($status == 'S')
+			$sql = "update pcrs.att_justifikasi set j_status = ?, j_sokong = ?, j_tkh_sokong = ? where j_id = ?";
+		if($status == 'L')
+			$sql = "update pcrs.att_justifikasi set j_status = ?, j_lulus = ?, j_tkh_lulus = ? where j_id = ?";
 		$this->db->query($sql, $fields);
 		echo $this->db->last_query();
 	}
@@ -214,6 +227,22 @@ class MJustifikasi extends CI_Model {
 	{
 		$sql = "DELETE FROM pcrs.att_justifikasi_kehadiran WHERE justifikasi_id = ?";
 		return $this->db->query($sql,array($id));
+	}
+
+	public function senJustifikasi($tahun, $bulan)
+	{
+		$sql = "select * from pcrs.att_justifikasi
+			where j_userid = ?
+			AND j_mula >= ?
+			AND j_tamat <= ?";
+		
+		$tkhMula = $tahun.'-'.$bulan.'-'.'1';
+		$tkhTamat = $tahun.'-'.$bulan.'-'.cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+
+		$justifikasi = $this->db->query($sql, array($this->session->userdata('uid'), $tkhMula, $tkhTamat));
+
+		//echo $this->db->last_query();
+		return $justifikasi;
 	}
 }
 

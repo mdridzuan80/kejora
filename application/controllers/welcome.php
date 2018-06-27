@@ -125,7 +125,7 @@ class Welcome extends MY_Controller {
 	private function kalendar($tahun, $bulan)
 	{
 		$prefs = array(
-			'start_day' => 'monday',
+			'start_day' => 'sunday',
 			'month_type' => 'long',
 			'day_type' => 'long',
 			'show_next_prev'  => TRUE,
@@ -140,21 +140,54 @@ class Welcome extends MY_Controller {
 				{heading_row_end}</tr>{/heading_row_end}
 
     			{week_day_cell}<th class="day_header">{week_day}</th>{/week_day_cell}
-    			{cal_cell_content}<span class="day_listing">{day}</span>&nbsp;&bull; {content}&nbsp;{/cal_cell_content}
-    			{cal_cell_content_today}<div class="today"><span class="day_listing">{day}</span>&bull; {content}</div>{/cal_cell_content_today}
+    			{cal_cell_content}<span class="day_listing">{day}</span>{content}{/cal_cell_content}
+    			{cal_cell_content_today}<div class="today"><span class="day_listing">{day}</span>{content}</div>{/cal_cell_content_today}
     			{cal_cell_no_content}<span class="day_listing">{day}</span>&nbsp;{/cal_cell_no_content}
     			{cal_cell_no_content_today}<div class="today"><span class="day_listing">{day}</span></div>{/cal_cell_no_content_today}',
 		);
 		$this->load->library('calendar', $prefs);
 
-		$dataCal = array(
-			3 => 'http://example.com/news/article/2006/03/',
-			7 => 'http://example.com/news/article/2006/07/',
-			13 => 'http://example.com/news/article/2006/13/',
-			26 => 'http://example.com/news/article/2006/26/'
-		);
+		$dataCal = $this->getEventsCal($tahun, $bulan);
 
 		return $this->calendar->generate($tahun, $bulan, $dataCal);
+	}
+
+	function getEventsCal($tahun, $bulan)
+	{
+		$dataCal = array();
+
+		//punch in
+		
+		//justifikasi
+		$this->load->model('mjustifikasi', 'justifikasi');
+		
+		$justifikasi = $this->justifikasi->senJustifikasi($tahun, $bulan);
+		$jenis = $this->config->item('pcrs_jenis_justifikasi');
+
+		if($justifikasi->num_rows() != 0)
+		{
+			foreach($justifikasi->result() as $row)
+			{
+				if($row->j_mula != $row->j_tamat)
+				{
+					$tkh = $row->j_mula;
+
+					do{
+						$dataCal[date('j', strtotime($tkh))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis]);
+						$tkh = date('Y-m-d', strtotime('+1 day', strtotime($tkh)));
+					} while (strtotime($tkh) <= strtotime($row->j_tamat));
+				}
+				else
+				{
+					$dataCal[date('j', strtotime($row->j_mula))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis]);
+				}
+
+			}
+		}
+
+		//var_dump($dataCal);
+		//die();
+		return $dataCal;
 	}
 }
 

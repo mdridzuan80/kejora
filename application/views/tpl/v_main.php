@@ -331,7 +331,7 @@
                                 <?php }?>
                                 <?php if($this->session->userdata('asPPK')){?>
                                 <li>
-                                    <a href="<?php echo base_url() ?>kelulusan/timeslip">Lulus</a>
+                                    <a href="<?php echo base_url() ?>kelulusan/sen_justifikasi_lulus">Lulus</a>
                                 </li>
                                 <?php }?>
                             </ul>
