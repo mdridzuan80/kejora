@@ -67,4 +67,13 @@ class MCuti extends CI_Model {
 		}
 		return $result;
 	}
+
+	public function infoCuti($tarikh)
+	{
+		$this->db->select('cuti_id, convert(varchar, cuti_mula, 120) as cuti_mula, cuti_perihal');
+		$this->db->from('PCRS.att_cuti');
+		$this->db->where('cuti_mula=', $tarikh);
+		$this->db->order_by('cuti_mula', 'asc');
+		return $this->db->get();
+	}
 }

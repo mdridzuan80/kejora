@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends MY_Controller {
+class Welcome extends MY_Controller
+{
 	public function index()
 	{
 		$this->load->model('mlaporan');
@@ -156,8 +157,28 @@ class Welcome extends MY_Controller {
 	{
 		$dataCal = array();
 
-		//punch in
-		
+		//lewat
+		$this->load->model('muserlewat');
+
+		$lewat = $this->muserlewat->get_user_lewat2($this->session->userdata('uid'), $bulan, $tahun);
+
+		if ($lewat->num_rows() != 0) {
+			foreach ($lewat->result() as $row) {
+				$dataCal[date('j', strtotime($row->CHECKTIME))][] = array("id" => $row->ID, "jenis" => "LEWAT", "alasan" => "LEWAT", "status" => "L");
+			}
+		}
+
+		//Cuti Umum
+		$this->load->model('mcuti', 'cuti');
+
+		$cutiUmum = $this->cuti->get_by_bulan_tahun($bulan, $tahun);
+
+		if (sizeof($cutiUmum) != 0) {
+			foreach ($cutiUmum as $key => $val) {
+				$dataCal[date('j', strtotime($key))][] = array("id" => $key, "jenis" => "CUTIUMUM", "alasan" => $val, "status" => "L");
+			}
+		}
+
 		//justifikasi
 		$this->load->model('mjustifikasi', 'justifikasi');
 		
@@ -173,13 +194,13 @@ class Welcome extends MY_Controller {
 					$tkh = $row->j_mula;
 
 					do{
-						$dataCal[date('j', strtotime($tkh))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis]);
+						$dataCal[date('j', strtotime($tkh))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis], "status" => $row->j_status);
 						$tkh = date('Y-m-d', strtotime('+1 day', strtotime($tkh)));
 					} while (strtotime($tkh) <= strtotime($row->j_tamat));
 				}
 				else
 				{
-					$dataCal[date('j', strtotime($row->j_mula))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis]);
+					$dataCal[date('j', strtotime($row->j_mula))][] = array("id"=>$row->j_id,"jenis"=>$row->j_jenis, "alasan"=>$jenis[$row->j_jenis], "status" => $row->j_status);
 				}
 
 			}

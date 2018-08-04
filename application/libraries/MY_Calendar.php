@@ -1,13 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	class MY_Calendar extends CI_Calendar
-	{		
-        /*function __construct()
+	{	
+
+        /* public function __construct()
         {
             parent::__construct();
-        }*/
+            
+        } */
 
         function generate($year = '', $month = '', $data = array())
         {
+            $CI =& get_instance();
+
             // Set and validate the supplied month/year
             if ($year == '')
                 $year  = date("Y", $this->local_time);
@@ -136,10 +140,12 @@
                                 
                                 $list = "<ul class=\"events\">";
 
+                                $status = $CI->config->item('pcrs_status_justifikasi');
+
                                 foreach($data[$day] as $key => $val)
                                 {
                                     
-                                    $list .= "<li class=\"jenis".$val["jenis"]."\" data-jid=\"".$val['id']."\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;".$val['alasan']."</li>";
+                                    $list .= "<li class=\"jenis".$val["jenis"]."\" data-jenis=\"".$val["jenis"]."\" data-jid=\"".$val['id']."\"><span class=\"". $status[$val['status']] ."\"></span>&nbsp;".$val['alasan']."</li>";
                                 }
                                 $list .= "</ul>";
                                 $out .= str_replace('{content}', $list, $add); 

@@ -1,6 +1,8 @@
 <script type="application/javascript">
 $(function() {
-	
+	var jenisPopUp = '';
+	var dataId = '';
+
 	panelJustifikasi();
 		
 	$('#frmJustifikasi .btn').click(function(){
@@ -32,5 +34,48 @@ $(function() {
 			}
 		});
 	});
+
+	$('.events li').on('click', function(e) {
+		e.preventDefault();
+		jenisPopUp = $(this).data('jenis');
+		dataId = $(this).data('jid');
+
+		$('#myEvent').modal('show');
+	});
+
+	$('#myEvent').on('show.bs.modal', function (e) {
+		var _this = $(this);
+		
+		$.ajax({
+			method: 'post',
+			url: base_url + 'api/event_info',
+			data: {jenis: jenisPopUp, id: dataId},
+			success: function(data, textStatus, jqXHR) {
+				if(jenisPopUp == "LEWAT")
+				{
+					var masuk = moment(data.checkin);
+
+					_this.find('#kategori2').html(data.kategori);
+					_this.find('#masuk').html(masuk.format("dddd, DD MMM YYYY, h:mm:ss a"));
+					_this.find('#lewat').show();
+					_this.find('#biasa').hide();
+				}
+				else
+				{
+					var mula = moment(data.mula);
+					var tamat = moment(data.tamat);
+
+					_this.find('#kategori').html(data.kategori);
+					_this.find('#mula').html(mula.format("dddd, DD MMM YYYY, h:mm:ss a"));
+					_this.find('#tamat').html(tamat.format("dddd, DD MMMM YYYY, h:mm:ss a"));
+					_this.find('#keterangan').html(data.keterangan);
+
+					_this.find('#lewat').hide();
+					_this.find('#biasa').show();
+				}
+			}
+		});
+  		//$(this).find('.modal-body').html(jenisPopUp);
+	})
 });	
 </script>

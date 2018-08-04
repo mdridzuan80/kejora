@@ -244,6 +244,15 @@ class MJustifikasi extends CI_Model {
 		//echo $this->db->last_query();
 		return $justifikasi;
 	}
+
+	public function justifikasi($id)
+	{
+		$sql = "SELECT * FROM pcrs.att_justifikasi
+			WHERE 1=1
+			AND j_id = ?";
+
+		return $this->db->query($sql, [$id]);
+	}
 }
 
 ?>

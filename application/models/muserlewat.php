@@ -79,6 +79,17 @@ class Muserlewat extends CI_Model {
 		return $this->db->query($sql);
 	}
 
+	public function get_user_lewat2($user_id, $bulan, $tahun)
+	{
+		$sql = "SELECT dbo.view_LATE.ID, dbo.view_LATE.NAME, dbo.view_LATE.DEPTNAME, dbo.view_LATE.TITLE, dbo.view_late.CHECKTIME
+			FROM dbo.view_LATE
+			WHERE 1 = 1
+			AND dbo.view_LATE.USERID = " . $user_id . "
+		 	AND dbo.view_LATE.MONTH = " . $bulan . "
+			AND dbo.view_LATE.YEAR = " . $tahun;
+		return $this->db->query($sql);
+	}
+
 	public function get_kod_warna($user_id, $bulan, $tahun)
 	{
 		$sql = "select * from dbo.att_sejarah_warna where userid = $user_id and bulan = $bulan and tahun = $tahun";
@@ -94,5 +105,15 @@ class Muserlewat extends CI_Model {
 			AND convert(varchar(10),dbo.view_LATE.CHECKTIME,120) = ?" ;
 
 		return $this->db->query($sql,array($tarikh));
+	}
+
+	public function infoLewat($id)
+	{
+		$sql = "SELECT *
+			FROM dbo.view_LATE
+			WHERE 1 = 1
+			AND ID = ?";
+
+		return $this->db->query($sql, array($id));
 	}
 }

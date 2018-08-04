@@ -270,6 +270,72 @@
                 <!-- /.row -->
     </div>
 </div>
+
+<div id="myEvent" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+	    <div id="lewat" style="display: none;">
+		    <div  class="row">
+				<div class="col-md-4">
+					Kategori
+				</div>
+				<div class="col-md-8 dd">
+					<span id="kategori2">LEWAT</span>
+				</div>
+			</div>
+			<div  class="row">
+				<div class="col-md-4">
+					Masa Masuk
+				</div>
+				<div class="col-md-8 dd">
+					<span id="masuk"></span>
+				</div>
+			</div>
+		</div>
+		<div id="biasa">
+			<div  class="row">
+				<div class="col-md-4">
+					Kategori
+				</div>
+				<div class="col-md-8 dd">
+					<span id="kategori"></span>
+				</div>
+			</div>
+			<div id="biasa" class="row">
+				<div class="col-md-4">
+					Mula
+				</div>
+				<div class="col-md-8 dd">
+					<span id="mula"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					Tamat
+				</div>
+				<div class="col-md-8 dd">
+					<span id="tamat"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					Keterangan
+				</div>
+				<div class="col-md-8 dd">
+					<span id="keterangan"></span>
+				</div>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script>
 function pulse() {
   $('.blink').fadeIn();
