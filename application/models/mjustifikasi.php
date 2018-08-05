@@ -251,7 +251,7 @@ class MJustifikasi extends CI_Model {
 			WHERE 1=1
 			AND j_id = ?";
 
-		return $this->db->query($sql, [$id]);
+		return $this->db->query($sql, array($id));
 	}
 }
 
