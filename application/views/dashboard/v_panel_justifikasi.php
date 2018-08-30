@@ -37,7 +37,8 @@
 								echo "Lewat Hadir : <span style=\" color:red;\">" . pcrs_seconds_to_hms($diff) . "</span><br/>";
 							}
 
-              $dateString = date("Y-m-d", strtotime($row->rpt_tarikh)) . $shift[2];
+                            $dateString = (date("N", strtotime($row->rpt_tarikh)) == 4) ? strtotime("-90 minutes", strtotime($row->rpt_tarikh . ' ' . $shift[2])) : date("Y-m-d", strtotime($row->rpt_tarikh)) . $shift[2];
+
 							if(strtotime($row->rpt_check_out) < strtotime($dateString))
 							{
 								$diff=strtotime($dateString)-strtotime($row->rpt_check_out);
